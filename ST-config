@@ -1,0 +1,34 @@
+[
+    { "keys": ["k","j"], "command": "exit_insert_mode",  
+        "context":  
+        [     
+            { "key": "setting.command_mode", "operand": false },  
+            { "key": "setting.is_widget", "operand": false }  
+        ]  
+    },  
+  
+    { "keys": ["k","j"], "command": "hide_auto_complete", "context":  
+        [  
+            { "key": "auto_complete_visible", "operator": "equal", "operand": true }  
+        ]  
+    },  
+  
+    { "keys": ["k","j"], "command": "vi_cancel_current_action", "context":  
+        [  
+            { "key": "setting.command_mode" },  
+            { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": false },  
+            { "key": "vi_has_input_state" }  
+        ]  
+    } 
+]
+
+
+
+{
+	"color_scheme": "Packages/Color Scheme - Default/Monokai.tmTheme",
+	"font_size": 14,
+	"ignored_packages":
+	[
+		//"Vintage"
+	]
+}
