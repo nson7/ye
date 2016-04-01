@@ -11,6 +11,7 @@
           ,xf:open file
           ,kk:find file in project
           ,im:function table
+          ,ww:save file
           ,git clone
           ,git add file
           ,git commit -m "log"
