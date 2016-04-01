@@ -19,6 +19,9 @@
           ,git status
           ,git log
           ,git diff
+          ,git check file
+          ,gitk
+          ,git config color.ui true
           gf:go to file
           gd:go to define
           gru:evil-mc-undo-all-cursors
