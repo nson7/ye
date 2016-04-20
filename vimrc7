@@ -24,8 +24,8 @@
 "==========================================
 
 " 修改leader键
-"let mapleader = ';'
-"let g:mapleader = ','
+let mapleader = ','
+let g:mapleader = ','
 
 " 开启语法高亮
 syntax on
@@ -100,7 +100,7 @@ set t_ti= t_te=
 
 
 " 鼠标暂不启用, 键盘党....
-set mouse-=a
+"set mouse-=a
 " 启用鼠标
 " set mouse=a
 " Hide the mouse cursor while typing
@@ -325,6 +325,7 @@ nnoremap k gk
 nnoremap gk k
 nnoremap j gj
 nnoremap gj j
+nnoremap ; q:k<CR>
 
 " F1 - F6 设置
 
@@ -402,14 +403,14 @@ noremap L $
 
 
 " Map ; to : and save a million keystrokes 用于快速进入命令行
-nnoremap ; :
+"nnoremap ; :
 
 
 " 命令行模式增强，ctrl - a到行首， -e 到行尾
-cnoremap <C-j> <t_kd>
-cnoremap <C-k> <t_ku>
-cnoremap <C-a> <Home>
-cnoremap <C-e> <End>
+"cnoremap <C-j> <t_kd>
+"cnoremap <C-k> <t_ku>
+"cnoremap <C-a> <Home>
+"cnoremap <C-e> <End>
 
 
 " 搜索相关
@@ -463,6 +464,9 @@ autocmd BufNewFile,BufRead *.py inoremap # X<c-h>#
 "map <leader>te :tabedit<cr>
 "map <leader>td :tabclose<cr>
 "map <leader>tm :tabm<cr>
+
+map <leader>ff :TlistOpen<cr>
+map <leader>fd :TlistClose<cr>
 
 " normal模式下切换到确切的tab
 "noremap <leader>1 1gt
@@ -521,7 +525,7 @@ inoremap kj <Esc>
 
 " 滚动Speed up scrolling of the viewport slightly
 "nnoremap <C-e> 2<C-e>
-"nnoremap <C-y> 2<C-y>
+"nnoremap <C-y> 1<C-y>
 
 
 " Jump to start and end of line using the home row keys
@@ -632,34 +636,47 @@ endif
 "==========================================
 
 " Set extra options when running in GUI mode
-if has("gui_running")
-    set guifont=Monaco:h14
-    if has("gui_gtk2")   "GTK2
-        set guifont=Monaco\ 12,Monospace\ 12
-    endif
-    set guioptions-=T
-    set guioptions+=e
-    set guioptions-=r
-    set guioptions-=L
-    set guitablabel=%M\ %t
-    set showtabline=1
-    set linespace=2
-    set noimd
-    set t_Co=256
-endif
+"if has("gui_running")
+   " set guifont=Monaco:h14
+   " if has("gui_gtk2")   "GTK2
+       " set guifont=Monaco\ 12,Monospace\ 12
+   " endif
+   " set guioptions-=T
+   " set guioptions+=e
+   " set guioptions-=r
+   " set guioptions-=L
+   " set guitablabel=%M\ %t
+   " set showtabline=1
+   " set linespace=2
+   " set noimd
+   " set t_Co=256
+"endif
 
 
 
 " theme主题
 set background=dark
+"set background=light
 set t_Co=256
 
 "colorscheme solarized
-colorscheme molokai
-" colorscheme desert
-let g:molokai_original = 1
-let g:rehash256 = 1
-
+"colorscheme molokai
+"colorscheme desert
+"let g:molokai_original = 1
+"let g:rehash256 = 1
+"let g:solarize_termcolors=256
+ 
+if has('gui_running')
+    colorscheme solarized
+    let g:solarize_termcolors=256
+    set mouse=a
+else
+    colorscheme molokai
+    let g:molokai_original = 1
+    let g:rehash256 = 1
+    let g:molokai_termoclolors=256
+    set mouse-=a
+endif
 
 " 设置标记一列的背景颜色和数字一行颜色一致
 hi! link SignColumn   LineNr
