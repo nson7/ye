@@ -618,7 +618,7 @@ endif
 "
 "   return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
 " endfunction
-"
+
 " let &t_SI .= WrapForTmux("\<Esc>[?2004h")
 " let &t_EI .= WrapForTmux("\<Esc>[?2004l")
 
@@ -636,21 +636,20 @@ endif
 "==========================================
 
 " Set extra options when running in GUI mode
-"if has("gui_running")
-   " set guifont=Monaco:h14
-   " if has("gui_gtk2")   "GTK2
-       " set guifont=Monaco\ 12,Monospace\ 12
-   " endif
-   " set guioptions-=T
-   " set guioptions+=e
-   " set guioptions-=r
-   " set guioptions-=L
-   " set guitablabel=%M\ %t
-   " set showtabline=1
-   " set linespace=2
-   " set noimd
-   " set t_Co=256
-"endif
+if has("gui_running")
+    set guifont=courier_new:h14
+    if has("gui_gtk2")   "GTK2
+        set guifont=courier\New\ 12,Arial\ 12
+    endif
+    set guioptions-=T
+    set guioptions+=e
+    set guioptions-=r
+    set guioptions-=L
+    set guitablabel=%M\ %t
+    set showtabline=1
+    set linespace=2
+    set noimd
+endif
 
 
 
@@ -707,6 +706,7 @@ call vundle#begin()
 
 " 让vundle管理插件版本,必须
 Plugin 'VundleVim/Vundle.vim'
+Bundle 'taglist.vim'
 
 " 以下范例用来支持不同格式的插件安装.
 " 请将安装插的命令放在vundle#begin和vundle#end之间.
