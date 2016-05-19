@@ -24,7 +24,7 @@
 "==========================================
 
 " 修改leader键
-let mapleader = ','
+"let mapleader = ','
 let g:mapleader = ','
 
 " 开启语法高亮
@@ -180,20 +180,33 @@ set smartcase
 " syntax    使用语法定义折叠
 " diff      对没有更改的文本进行折叠
 " marker    使用标记进行折叠, 默认标记是 {{{ 和 }}}
-"set foldmethod=indent
-"set foldlevel=99
+set foldmethod=indent
+set foldlevel=99
 " 代码折叠自定义快捷键 <leader>zz
-"let g:FoldMethod = 0
-"map <leader>zz :call ToggleFold()<cr>
-"fun! ToggleFold()
-    "if g:FoldMethod == 0
-        "exe "normal! zM"
-        "let g:FoldMethod = 1
-    "else
-        "exe "normal! zR"
-        "let g:FoldMethod = 0
-    "endif
-"endfun
+let g:FoldMethod = 0
+nnoremap <leader>zi :call ToggleFold()<cr>
+fun! ToggleFold()
+    if g:FoldMethod == 0
+        exe "normal! zM"
+        let g:FoldMethod = 1
+    else
+        exe "normal! zR"
+        let g:FoldMethod = 0
+    endif
+endfun
+
+" function list
+let g:TlistMode = 0
+nnoremap <leader>ff :call Tlist()<cr>
+fun! Tlist()
+    if g:TlistMode == 0
+        TlistOpen
+        let g:TlistMode = 1
+    else
+        TlistClose
+        let g:TlistMode = 0
+    endif
+endfun
 
 " 缩进配置
 " Smart indent
@@ -246,7 +259,7 @@ nnoremap <C-n> :call NumberToggle()<cr>
 " 设置新文件的编码为 UTF-8
 set encoding=utf-8
 " 自动判断编码时，依次尝试以下编码：
-set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
+set fileencodings=utf-8,ucs-bom,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 set helplang=cn
 "set langmenu=zh_CN.UTF-8
 "set enc=2byte-gb18030
@@ -280,20 +293,20 @@ set wildmenu
 set wildignore=*.o,*~,*.pyc,*.class
 
 " 离开插入模式后自动关闭预览窗口
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+"autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
 " 回车即选中当前项
-inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
+"inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
 
 " In the quickfix window, <CR> is used to jump to the error under the
 " cursor, so undefine the mapping there.
-autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
+"autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
 " quickfix window  s/v to open in split window,  ,gd/,jd => quickfix window => open it
-autocmd BufReadPost quickfix nnoremap <buffer> v <C-w><Enter><C-w>L
-autocmd BufReadPost quickfix nnoremap <buffer> s <C-w><Enter><C-w>K
+"autocmd BufReadPost quickfix nnoremap <buffer> v <C-w><Enter><C-w>L
+"autocmd BufReadPost quickfix nnoremap <buffer> s <C-w><Enter><C-w>K
 
 " command-line window
-autocmd CmdwinEnter * nnoremap <buffer> <CR> <CR>
+"autocmd CmdwinEnter * nnoremap <buffer> <CR> <CR>
 
 
 " 上下左右键的行为 会显示其他信息
@@ -398,8 +411,8 @@ map <C-l> <C-W>l
 
 
 " Go to home and end using capitalized directions
-noremap H ^
-noremap L $
+nnoremap H ^
+nnoremap L $
 
 
 " Map ; to : and save a million keystrokes 用于快速进入命令行
@@ -415,7 +428,7 @@ noremap L $
 
 " 搜索相关
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-map <space> :nohls<CR>
+nnoremap <space> :nohls<CR>
 " 进入搜索Use sane regexes"
 "nnoremap / /\v
 "vnoremap / /\v
@@ -465,20 +478,20 @@ autocmd BufNewFile,BufRead *.py inoremap # X<c-h>#
 "map <leader>td :tabclose<cr>
 "map <leader>tm :tabm<cr>
 
-map <leader>ff :TlistOpen<cr>
-map <leader>fd :TlistClose<cr>
+"nnoremap <leader>ff :TlistOpen<cr>
+"nnoremap <leader>fd :TlistClose<cr>
 
 " normal模式下切换到确切的tab
-"noremap <leader>1 1gt
-"noremap <leader>2 2gt
-"noremap <leader>3 3gt
-"noremap <leader>4 4gt
-"noremap <leader>5 5gt
-"noremap <leader>6 6gt
-"noremap <leader>7 7gt
-"noremap <leader>8 8gt
-"noremap <leader>9 9gt
-"noremap <leader>0 :tablast<cr>
+nnoremap <leader>1 1gt
+nnoremap <leader>2 2gt
+nnoremap <leader>3 3gt
+nnoremap <leader>4 4gt
+nnoremap <leader>5 5gt
+nnoremap <leader>6 6gt
+nnoremap <leader>7 7gt
+nnoremap <leader>8 8gt
+nnoremap <leader>9 9gt
+nnoremap <leader>0 :tablast<cr>
 
 " Toggles between the active and last active tab "
 " The first tab is always 1 "
@@ -639,7 +652,7 @@ endif
 if has("gui_running")
     set guifont=courier_new:h14
     if has("gui_gtk2")   "GTK2
-        set guifont=courier\New\ 12,Arial\ 12
+        set guifont=courier\New\ 14,Arial\ 14
     endif
     set guioptions-=T
     set guioptions+=e
@@ -706,6 +719,7 @@ call vundle#begin()
 
 " 让vundle管理插件版本,必须
 Plugin 'VundleVim/Vundle.vim'
+Bundle 'ctags.vim'
 Bundle 'taglist.vim'
 
 " 以下范例用来支持不同格式的插件安装.
