@@ -274,7 +274,6 @@ set formatoptions+=m
 " 合并两行中文时，不在中间加空格
 set formatoptions+=B
 
-
 "==========================================
 " others 其它设置
 "==========================================
@@ -757,5 +756,9 @@ filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和
 " 将你自己对非插件片段放在这行之后
 
 
-
+"解决菜单乱码
+source $VIMRUNTIME/delmenu.vim
+source $VIMRUNTIME/menu.vim
+"解决console输出乱码
+language message zh_CN.utf-8
 
