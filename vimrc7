@@ -760,9 +760,9 @@ highlight SpellLocal term=underline cterm=underline
 " ################### 功能相关 ###################
 
 " ctrlp ctrlpfunky{{{
-    let g:ctrlp_map = '<leader>p'
+    let g:ctrlp_map = '<leader>jj'
     let g:ctrlp_cmd = 'CtrlP'
-    nnoremap <leader>jj :CtrlPMRU<CR>
+    nnoremap <leader>kk :CtrlPMRU<CR>
     let g:ctrlp_custom_ignore = {
         \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
         \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz|pyc)$',
@@ -783,7 +783,7 @@ highlight SpellLocal term=underline cterm=underline
 
     " ctrlpfunky
     " ctrlp插件1 - 不用ctag进行函数快速跳转
-    nnoremap <Leader>kk :CtrlPFunky<Cr>
+    nnoremap <Leader>ii :CtrlPFunky<Cr>
     " narrow the list down with a word under cursor
     "nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
     let g:ctrlp_funky_syntax_highlight = 1
