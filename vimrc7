@@ -251,7 +251,7 @@ function! NumberToggle()
     set relativenumber
   endif
 endfunc
-nnoremap <C-n> :call NumberToggle()<cr>
+nnoremap <leader>nu :call NumberToggle()<cr>
 
 "==========================================
 " FileEncode Settings 文件编码,格式
@@ -337,7 +337,9 @@ nnoremap k gk
 nnoremap gk k
 nnoremap j gj
 nnoremap gj j
-nnoremap ; q:k<CR>
+nnoremap <leader>bb :b#<cr> 
+nnoremap <leader>ww :w<cr> 
+nnoremap ;; q:k<CR>
 
 " F1 - F6 设置
 
@@ -705,6 +707,111 @@ highlight clear SpellLocal
 highlight SpellLocal term=underline cterm=underline
 
 
+" ################### 自动补全 ###################
+
+" YouCompleteMe {{{
+    "youcompleteme  默认tab  s-tab 和自动补全冲突
+    "let g:ycm_key_list_select_completion=['<c-n>']
+    let g:ycm_key_list_select_completion = ['<Down>']
+    "let g:ycm_key_list_previous_completion=['<c-p>']
+    let g:ycm_key_list_previous_completion = ['<Up>']
+    let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
+    let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
+    let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
+    let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
+    let g:ycm_collect_identifiers_from_tags_files = 1
+    " 开启语法关键字补全
+    let g:ycm_seed_identifiers_with_syntax=1
+
+    "let g:ycm_seed_identifiers_with_syntax=1   "语言关键字补全, 不过python关键字都很短，所以，需要的自己打开
+
+    " 跳转到定义处, 分屏打开
+    let g:ycm_goto_buffer_command = 'horizontal-split'
+    " nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
+    nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+    nnoremap <leader>gd :YcmCompleter GoToDeclaration<CR>
+
+    " 引入，可以补全系统，以及python的第三方包 针对新老版本YCM做了兼容
+    " old version
+    if !empty(glob("~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"))
+        let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"
+    endif
+    " new version
+    if !empty(glob("~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
+        let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
+    endif
+
+    " 直接触发自动补全 insert模式下
+    " let g:ycm_key_invoke_completion = '<C-Space>'
+    " 黑名单,不启用
+    let g:ycm_filetype_blacklist = {
+        \ 'tagbar' : 1,
+        \ 'gitcommit' : 1,
+        \}
+" }}}
+
+" ################### 快速编码 ###################
+
+" nerdcommenter {{{
+    let g:NERDSpaceDelims=1
+    "TODO: for python, one space
+" }}}
+
+" ################### 功能相关 ###################
+
+" ctrlp ctrlpfunky{{{
+    let g:ctrlp_map = '<leader>p'
+    let g:ctrlp_cmd = 'CtrlP'
+    nnoremap <leader>jj :CtrlPMRU<CR>
+    let g:ctrlp_custom_ignore = {
+        \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
+        \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz|pyc)$',
+        \ }
+    let g:ctrlp_working_path_mode=0
+    let g:ctrlp_match_window_bottom=1
+    let g:ctrlp_max_height=15
+    let g:ctrlp_match_window_reversed=0
+    let g:ctrlp_mruf_max=500
+    let g:ctrlp_follow_symlinks=1
+    " 如果安装了ag, 使用ag
+    " if executable('ag')
+    " " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+    " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    " " ag is fast enough that CtrlP doesn't need to cache
+    " let g:ctrlp_use_caching = 0
+    " endif
+
+    " ctrlpfunky
+    " ctrlp插件1 - 不用ctag进行函数快速跳转
+    nnoremap <Leader>kk :CtrlPFunky<Cr>
+    " narrow the list down with a word under cursor
+    "nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+    let g:ctrlp_funky_syntax_highlight = 1
+
+    let g:ctrlp_extensions = ['funky']
+" }}}
+
+" ################### 快速导航 ###################
+
+" nerdtree nerdtreetabs {{{
+    nnoremap <leader>nn :NERDTreeToggle<CR>
+    let NERDTreeHighlightCursorline=1
+    let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
+    "close vim if the only window left open is a NERDTree
+    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | end
+    " s/v 分屏打开文件
+    let g:NERDTreeMapOpenSplit = 's'
+    let g:NERDTreeMapOpenVSplit = 'v'
+
+
+    " 关闭同步
+    let g:nerdtree_tabs_synchronize_view=0
+    let g:nerdtree_tabs_synchronize_focus=0
+    " 是否自动开启nerdtree
+    " thank to @ListenerRi, see https://github.com/wklken/k-vim/issues/165
+    let g:nerdtree_tabs_open_on_console_startup=0
+    let g:nerdtree_tabs_open_on_gui_startup=0
+" }}}
 
 " 设置vundle参数
 set nocompatible              " 去除VI一致性,必须
@@ -720,6 +827,27 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Bundle 'ctags.vim'
 Bundle 'taglist.vim'
+Bundle 'scrooloose/nerdtree'
+" 主题 solarized
+" solarized
+Bundle 'altercation/vim-colors-solarized'
+" molokai
+" 主题 molokai
+Bundle 'tomasr/molokai'
+" quick locate file or function
+" 文件搜索
+" change to https://github.com/ctrlpvim/ctrlp.vim
+" ctrlp ctrlpfunky
+Bundle 'ctrlpvim/ctrlp.vim' 
+Bundle 'tacahiroy/ctrlp-funky'
+" quick edit
+" 快速注释
+Bundle 'scrooloose/nerdcommenter'
+" auto complete
+" 代码自动补全
+" 迄今为止用到的最好的自动VIM自动补全插件
+" 重启 :YcmRestartServer
+"Bundle 'Valloric/YouCompleteMe'
 
 " 以下范例用来支持不同格式的插件安装.
 " 请将安装插的命令放在vundle#begin和vundle#end之间.
