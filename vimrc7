@@ -275,6 +275,10 @@ nnoremap gj j
 nnoremap <leader>bb :b#<cr> 
 nnoremap ;; q:k<CR>
 
+inoremap ( ()<ESC>i
+inoremap [ []<ESC>i
+inoremap { {}<ESC>i
+
 " 分屏窗口移动, Smart way to move between windows
 map <C-j> <C-W>j
 map <C-k> <C-W>k
