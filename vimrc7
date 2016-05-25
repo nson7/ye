@@ -1,30 +1,9 @@
-"==========================================
-" Author:  wklken
-" Version: 9.1
-" Email: wklken@yeah.net
-" BlogPost: http://www.wklken.me
-" ReadMe: README.md
-" Donation: http://www.wklken.me/pages/donation.html
-" Last_modify: 2015-12-15
-" Sections:
-"       -> Initial Plugin 加载插件
-"       -> General Settings 基础设置
-"       -> Display Settings 展示/排版等界面格式设置
-"       -> FileEncode Settings 文件编码设置
-"       -> Others 其它配置
-"       -> HotKey Settings  自定义快捷键
-"       -> FileType Settings  针对文件类型的设置
-"       -> Theme Settings  主题设置
-"
-"       -> 插件配置和具体设置在vimrc.bundles中
-"==========================================
 
 "==========================================
 " Initial Plugin 加载插件
 "==========================================
 
 " 修改leader键
-"let mapleader = ','
 let g:mapleader = ','
 
 " 开启语法高亮
@@ -38,15 +17,15 @@ endif
 " ensure ftdetect et al work by including this after the bundle stuff
 filetype plugin indent on
 
+
 " NOTE: 以下配置有详细说明，一些特性不喜欢可以直接注解掉
 
 "==========================================
 " General Settings 基础设置
 "==========================================
 
-
 " history存储容量
-set history=20
+set history=70
 
 " 检测文件类型
 filetype on
@@ -72,20 +51,6 @@ set nobackup
 " 关闭交换文件
 set noswapfile
 
-
-" TODO: remove this, use gundo
-" create undo file
-" if has('persistent_undo')
-  " " How many undos
-  " set undolevels=1000
-  " " number of lines to save for undo
-  " set undoreload=10000
-  " " So is persistent undo ...
-  " "set undofile
-  " set noundofile
-  " " set undodir=/tmp/vimundo/
-" endif
-
 set wildignore=*.swp,*.bak,*.pyc,*.class,.svn
 
 " 突出显示当前列
@@ -93,11 +58,9 @@ set cursorcolumn
 " 突出显示当前行
 set cursorline
 
-
 " 设置 退出vim后，内容显示在终端屏幕, 可以用于查看和复制, 不需要可以去掉
 " 好处：误删什么的，如果以前屏幕打开，可以找回
 set t_ti= t_te=
-
 
 " 鼠标暂不启用, 键盘党....
 "set mouse-=a
@@ -292,27 +255,7 @@ set wildmenu
 set wildignore=*.o,*~,*.pyc,*.class
 
 " 离开插入模式后自动关闭预览窗口
-"autocmd InsertLeave * if pumvisible() == 0|pclose|endif
-
-" 回车即选中当前项
-"inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
-
-" In the quickfix window, <CR> is used to jump to the error under the
-" cursor, so undefine the mapping there.
-"autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
-" quickfix window  s/v to open in split window,  ,gd/,jd => quickfix window => open it
-"autocmd BufReadPost quickfix nnoremap <buffer> v <C-w><Enter><C-w>L
-"autocmd BufReadPost quickfix nnoremap <buffer> s <C-w><Enter><C-w>K
-
-" command-line window
-"autocmd CmdwinEnter * nnoremap <buffer> <CR> <CR>
-
-
-" 上下左右键的行为 会显示其他信息
-"inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
-"inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
-"inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
-"inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
 " 打开自动定位到最后编辑的位置, 需要确认 .viminfo 当前用户可写
 if has("autocmd")
@@ -323,14 +266,6 @@ endif
 " HotKey Settings  自定义快捷键设置
 "==========================================
 
-" 主要按键重定义
-
-" 关闭方向键, 强迫自己用 hjkl
-"map <Left> <Nop>
-"map <Right> <Nop>
-"map <Up> <Nop>
-"map <Down> <Nop>
-
 "Treat long lines as break lines (useful when moving around in them)
 "se swap之后，同物理行上线直接跳
 nnoremap k gk
@@ -338,54 +273,7 @@ nnoremap gk k
 nnoremap j gj
 nnoremap gj j
 nnoremap <leader>bb :b#<cr> 
-nnoremap <leader>ww :w<cr> 
 nnoremap ;; q:k<CR>
-
-" F1 - F6 设置
-
-" F1 废弃这个键,防止调出系统帮助
-" I can type :help on my own, thanks.  Protect your fat fingers from the evils of <F1>
-"noremap <F1> <Esc>"
-
-" F2 行号开关，用于鼠标复制代码用
-" 为方便复制，用<F2>开启/关闭行号显示:
-"function! HideNumber()
-  "if(&relativenumber == &number)
-    "set relativenumber! number!
-  "elseif(&number)
-    "set number!
-  "else
-    "set relativenumber!
-  "endif
-  "set number?
-"endfunc
-"nnoremap <F2> :call HideNumber()<CR>
-" F3 显示可打印字符开关
-"nnoremap <F3> :set list! list?<CR>
-" F4 换行开关
-"nnoremap <F4> :set wrap! wrap?<CR>
-
-" F6 语法开关，关闭语法可以加快大文件的展示
-"nnoremap <F6> :exec exists('syntax_on') ? 'syn off' : 'syn on'<CR>
-
-"set pastetoggle=<F5>            "    when in insert mode, press <F5> to go to
-                                "    paste mode, where you can paste mass data
-                                "    that won't be autoindented
-
-" disbale paste mode when leaving insert mode
-"au InsertLeave * set nopaste
-
-" F5 set paste问题已解决, 粘贴代码前不需要按F5了
-" F5 粘贴模式paste_mode开关,用于有格式的代码粘贴
-" Automatically set paste mode in Vim when pasting in insert mode
-"function! XTermPasteBegin()
-  "set pastetoggle=<Esc>[201~
-  "set paste
-  "return ""
-"endfunction
-"inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
-
-
 
 " 分屏窗口移动, Smart way to move between windows
 map <C-j> <C-W>j
@@ -394,45 +282,12 @@ map <C-h> <C-W>h
 map <C-l> <C-W>l
 
 
-" http://stackoverflow.com/questions/13194428/is-better-way-to-zoom-windows-in-vim-than-zoomwin
-" Zoom / Restore window.
-"function! s:ZoomToggle() abort
-    "if exists('t:zoomed') && t:zoomed
-        "execute t:zoom_winrestcmd
-        "let t:zoomed = 0
-    "else
-        "let t:zoom_winrestcmd = winrestcmd()
-        "resize
-        "vertical resize
-        "let t:zoomed = 1
-    "endif
-"endfunction
-"command! ZoomToggle call s:ZoomToggle()
-"nnoremap <silent> <Leader>z :ZoomToggle<CR>
-
-
 " Go to home and end using capitalized directions
 nnoremap H ^
 nnoremap L $
 
-
-" Map ; to : and save a million keystrokes 用于快速进入命令行
-"nnoremap ; :
-
-
-" 命令行模式增强，ctrl - a到行首， -e 到行尾
-"cnoremap <C-j> <t_kd>
-"cnoremap <C-k> <t_ku>
-"cnoremap <C-a> <Home>
-"cnoremap <C-e> <End>
-
-
 " 搜索相关
-" Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
 nnoremap <space> :nohls<CR>
-" 进入搜索Use sane regexes"
-"nnoremap / /\v
-"vnoremap / /\v
 
 " Keep search pattern at the center of the screen.
 nnoremap <silent> n nzz
@@ -441,46 +296,8 @@ nnoremap <silent> * *zz
 nnoremap <silent> # #zz
 nnoremap <silent> g* g*zz
 
-" 去掉搜索高亮
-"noremap <silent><leader>/ :nohls<CR>
-
-" switch # *
-"nnoremap # *
-"nnoremap * #
-
 " for # indent, python文件中输入新行时#号注释不切回行首
 autocmd BufNewFile,BufRead *.py inoremap # X<c-h>#
-
-
-" tab/buffer相关
-
-" 切换前后buffer
-"nnoremap [b :bprevious<cr>
-"nnoremap ]b :bnext<cr>
-" 使用方向键切换buffer
-"noremap <left> :bp<CR>
-"noremap <right> :bn<CR>
-
-
-" tab 操作
-" http://vim.wikia.com/wiki/Alternative_tab_navigation
-" http://stackoverflow.com/questions/2005214/switching-to-a-particular-tab-in-vim
-
-" tab切换
-"map <leader>th :tabfirst<cr>
-"map <leader>tl :tablast<cr>
-
-"map <leader>tj :tabnext<cr>
-"map <leader>tk :tabprev<cr>
-"map <leader>tn :tabnext<cr>
-"map <leader>tp :tabprev<cr>
-
-"map <leader>te :tabedit<cr>
-"map <leader>td :tabclose<cr>
-"map <leader>tm :tabm<cr>
-
-"nnoremap <leader>ff :TlistOpen<cr>
-"nnoremap <leader>fd :TlistClose<cr>
 
 " normal模式下切换到确切的tab
 nnoremap <leader>1 1gt
@@ -494,75 +311,20 @@ nnoremap <leader>8 8gt
 nnoremap <leader>9 9gt
 nnoremap <leader>0 :tablast<cr>
 
-" Toggles between the active and last active tab "
-" The first tab is always 1 "
-"let g:last_active_tab = 1
-" nnoremap <leader>gt :execute 'tabnext ' . g:last_active_tab<cr>
-" nnoremap <silent> <c-o> :execute 'tabnext ' . g:last_active_tab<cr>
-" vnoremap <silent> <c-o> :execute 'tabnext ' . g:last_active_tab<cr>
-"nnoremap <silent> <leader>tt :execute 'tabnext ' . g:last_active_tab<cr>
-"autocmd TabLeave * let g:last_active_tab = tabpagenr()
-
-" 新建tab  Ctrl+t
-"nnoremap <C-t>     :tabnew<CR>
-"inoremap <C-t>     <Esc>:tabnew<CR>
-
-
-" => 选中及操作改键
-
-" 调整缩进后自动选中，方便再次操作
-"vnoremap < <gv
-"vnoremap > >gv
-
 " y$ -> Y Make Y behave like other capitals
-"map Y y$
+map Y y$
 
 " 复制选中区到系统剪切板中
-"vnoremap <leader>y "+y
-
-" auto jump to end of select
-" vnoremap <silent> y y`]
-" vnoremap <silent> p p`]
-" nnoremap <silent> p p`]
+vnoremap <leader>y "+y
 
 " select all
-"map <Leader>sa ggVG"
-
-" select block
-"nnoremap <leader>v V`}
-
-" w!! to sudo & write a file
-"cmap w!! w !sudo tee >/dev/null %
+nnoremap <Leader>sa ggVG"
 
 " kj 替换 Esc
 inoremap kj <Esc>
 
-" 滚动Speed up scrolling of the viewport slightly
-"nnoremap <C-e> 2<C-e>
-"nnoremap <C-y> 1<C-y>
-
-
-" Jump to start and end of line using the home row keys
-" 增强tab操作, 导致这个会有问题, 考虑换键
-"nmap t o<ESC>k
-"nmap T O<ESC>j
-
-" Quickly close the current window
-"nnoremap <leader>q :q<CR>
-
-" Quickly save the current file
-"nnoremap <leader>w :w<CR>
-
-" 交换 ' `, 使得可以快速使用'跳到marked位置
-"nnoremap ' `
-"nnoremap ` '
-
-" remap U to <C-r> for easier redo
-"nnoremap U <C-r>
-
-" Quickly edit/reload the vimrc file
-"nmap <silent> <leader>ev :e $MYVIMRC<CR>
-"nmap <silent> <leader>sv :so $MYVIMRC<CR>
+"remap U to <C-r> for easier redo
+nnoremap U <C-r>
 
 "==========================================
 " FileType Settings  文件类型设置
@@ -587,26 +349,54 @@ fun! <SID>StripTrailingWhitespaces()
 endfun
 autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
+"新建.c,.h,.sh,.java文件，自动插入文件头 
+autocmd BufNewFile *.cpp,*.[ch],*.sh,*.rb,*.java,*.py exec ":call SetTitle()" 
+""定义函数SetTitle，自动插入文件头 
+function! SetTitle()
+	"如果文件类型为.sh文件 
+	if &filetype == 'sh' 
+		call setline(1,"\#!/bin/bash") 
+		call append(line("."), "") 
+    elseif &filetype == 'python'
+        call setline(1,"#!/usr/bin/env python")
+        call append(line("."),"# coding=utf-8")
+	    call append(line(".")+1, "") 
 
-" 定义函数AutoSetFileHead，自动插入文件头
-autocmd BufNewFile *.sh,*.py exec ":call AutoSetFileHead()"
-function! AutoSetFileHead()
-    "如果文件类型为.sh文件
-    if &filetype == 'sh'
-        call setline(1, "\#!/bin/bash")
-    endif
+    elseif &filetype == 'ruby'
+        call setline(1,"#!/usr/bin/env ruby")
+        call append(line("."),"# encoding: utf-8")
+	    call append(line(".")+1, "")
 
-    "如果文件类型为python
-    if &filetype == 'python'
-        call setline(1, "\#!/usr/bin/env python")
-        call append(1, "\# encoding: utf-8")
-    endif
-
-    normal G
-    normal o
-    normal o
-endfunc
-
+	else 
+		call setline(1, "/*************************************************************************") 
+		call append(line("."), "    > File Name: ".expand("%")) 
+		call append(line(".")+1, "	> Author: nson7") 
+		call append(line(".")+2, "	> Mail: nson7@sina.com") 
+		call append(line(".")+3, "	> Created Time: ".strftime("%c")) 
+		call append(line(".")+4, " ************************************************************************/") 
+		call append(line(".")+5, "")
+	endif
+	if expand("%:e") == 'cpp'
+		call append(line(".")+6, "#include<iostream>")
+		call append(line(".")+7, "using namespace std;")
+		call append(line(".")+8, "")
+	endif
+	if &filetype == 'c'
+		call append(line(".")+6, "#include<stdio.h>")
+		call append(line(".")+7, "")
+	endif
+	if expand("%:e") == 'h'
+		call append(line(".")+6, "#ifndef _".toupper(expand("%:r"))."_H")
+		call append(line(".")+7, "#define _".toupper(expand("%:r"))."_H")
+		call append(line(".")+8, "#endif")
+	endif
+	if &filetype == 'java'
+		call append(line(".")+6,"public class ".expand("%:r"))
+		call append(line(".")+7,"")
+	endif
+	"新建文件后，自动定位到文件末尾
+endfunc 
+autocmd BufNewFile * normal G
 
 " 设置可以高亮的关键字
 if has("autocmd")
@@ -672,13 +462,6 @@ set background=dark
 "set background=light
 set t_Co=256
 
-"colorscheme solarized
-"colorscheme molokai
-"colorscheme desert
-"let g:molokai_original = 1
-"let g:rehash256 = 1
-"let g:solarize_termcolors=256
- 
 if has('gui_running')
     colorscheme solarized
     let g:solarize_termcolors=256
@@ -712,49 +495,48 @@ highlight SpellLocal term=underline cterm=underline
 " YouCompleteMe {{{
     "youcompleteme  默认tab  s-tab 和自动补全冲突
     "let g:ycm_key_list_select_completion=['<c-n>']
-    let g:ycm_key_list_select_completion = ['<Down>']
+    "let g:ycm_key_list_select_completion = ['<Down>']
     "let g:ycm_key_list_previous_completion=['<c-p>']
-    let g:ycm_key_list_previous_completion = ['<Up>']
-    let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
-    let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
-    let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
-    let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
-    let g:ycm_collect_identifiers_from_tags_files = 1
+    "let g:ycm_key_list_previous_completion = ['<Up>']
+    "let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
+    "let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
+    "let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
+    "let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
+    "let g:ycm_collect_identifiers_from_tags_files = 1
     " 开启语法关键字补全
-    let g:ycm_seed_identifiers_with_syntax=1
+    "let g:ycm_seed_identifiers_with_syntax=1
 
     "let g:ycm_seed_identifiers_with_syntax=1   "语言关键字补全, 不过python关键字都很短，所以，需要的自己打开
 
     " 跳转到定义处, 分屏打开
-    let g:ycm_goto_buffer_command = 'horizontal-split'
+    "let g:ycm_goto_buffer_command = 'horizontal-split'
     " nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
-    nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
-    nnoremap <leader>gd :YcmCompleter GoToDeclaration<CR>
+    "nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+    "nnoremap <leader>gd :YcmCompleter GoToDeclaration<CR>
 
     " 引入，可以补全系统，以及python的第三方包 针对新老版本YCM做了兼容
     " old version
-    if !empty(glob("~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"))
-        let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"
-    endif
+    "if !empty(glob("~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"))
+        "let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"
+    "endif
     " new version
-    if !empty(glob("~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
-        let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
-    endif
+    "if !empty(glob("~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
+        "let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
+    "endif
 
     " 直接触发自动补全 insert模式下
     " let g:ycm_key_invoke_completion = '<C-Space>'
     " 黑名单,不启用
-    let g:ycm_filetype_blacklist = {
-        \ 'tagbar' : 1,
-        \ 'gitcommit' : 1,
-        \}
+    "let g:ycm_filetype_blacklist = {
+        "\ 'tagbar' : 1,
+        "\ 'gitcommit' : 1,
+        "\}
 " }}}
 
 " ################### 快速编码 ###################
 
 " nerdcommenter {{{
     let g:NERDSpaceDelims=1
-    "TODO: for python, one space
 " }}}
 
 " ################### 功能相关 ###################
@@ -814,7 +596,6 @@ highlight SpellLocal term=underline cterm=underline
 " }}}
 
 " 设置vundle参数
-set nocompatible              " 去除VI一致性,必须
 filetype off                  " 必须
 
 " 设置包括vundle和初始化相关的runtime path
@@ -848,25 +629,6 @@ Bundle 'scrooloose/nerdcommenter'
 " 迄今为止用到的最好的自动VIM自动补全插件
 " 重启 :YcmRestartServer
 "Bundle 'Valloric/YouCompleteMe'
-
-" 以下范例用来支持不同格式的插件安装.
-" 请将安装插的命令放在vundle#begin和vundle#end之间.
-" Github上的插件
-" 格式为 Plugin '用户名/插件仓库名'
-"Plugin 'tpope/vim-fugitive'
-" 来自 http://vim-scripts.org/vim/scripts.html 的插件
-" Plugin '插件名称' 实际上是 Plugin 'vim-scripts/插件仓库名' 只是此处的用户名可以省略
-"Plugin 'L9'
-" 由Git支持但不再github上的插件仓库 Plugin 'git clone 后面的地址'
-"Plugin 'git://git.wincent.com/command-t.git'
-" 本地的Git仓库(例如自己的插件) Plugin 'file:///+本地插件仓库绝对路径'
-"Plugin 'file:///home/gmarik/path/to/plugin'
-" 插件在仓库的子目录中.
-" 正确指定路径用以设置runtimepath. 以下范例插件在sparkup/vim目录下
-"Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" 安装L9，如果已经安装过这个插件，可利用以下格式避免命名冲突
-"Plugin 'ascenator/L9', {'name': 'newL9'}
-"Bundle 'Valloric/YouCompleteme'
 
 " 你的所有插件需要在下面这行之前
 call vundle#end()            " 必须
