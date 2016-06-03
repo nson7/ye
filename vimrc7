@@ -68,6 +68,7 @@ set t_ti= t_te=
 " set mouse=a
 " Hide the mouse cursor while typing
 " set mousehide
+"set gcr=a:block-blinkon0
 
 
 " 修复ctrl+m 多光标操作选择的bug，但是改变了ctrl+v进行字符选中时将包含光标下的字符
@@ -143,9 +144,8 @@ set smartcase
 " syntax    使用语法定义折叠
 " diff      对没有更改的文本进行折叠
 " marker    使用标记进行折叠, 默认标记是 {{{ 和 }}}
-set foldmethod=indent
+set foldmethod=indent 
 set foldlevel=99
-" 代码折叠自定义快捷键 <leader>zz
 let g:FoldMethod = 0
 nnoremap <leader>zi :call ToggleFold()<cr>
 fun! ToggleFold()
@@ -632,6 +632,7 @@ Bundle 'scrooloose/nerdcommenter'
 " 迄今为止用到的最好的自动VIM自动补全插件
 " 重启 :YcmRestartServer
 "Bundle 'Valloric/YouCompleteMe'
+"Bundle 'Shougo/neocomplete.vim'
 
 " 你的所有插件需要在下面这行之前
 call vundle#end()            " 必须
