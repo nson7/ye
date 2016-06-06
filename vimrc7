@@ -1,7 +1,23 @@
 
-"==========================================
-" Initial Plugin 加载插件
-"==========================================
+" -----------------------------------------------------------------------------
+"  < 判断操作系统是否是 Windows 还是 Linux >
+" -----------------------------------------------------------------------------
+let g:iswindows = 0
+let g:islinux = 0
+if(has("win32") || has("win64") || has("win95") || has("win16"))
+    let g:iswindows = 1
+else
+    let g:islinux = 1
+endif
+ 
+" -----------------------------------------------------------------------------
+"  < 判断是终端还是 Gvim >
+" -----------------------------------------------------------------------------
+" if has("gui_running")
+    " let g:isGUI = 1
+" else
+    " let g:isGUI = 0
+" endif
 
 " 修改leader键
 let g:mapleader = ','
@@ -16,9 +32,6 @@ endif
 
 " ensure ftdetect et al work by including this after the bundle stuff
 filetype plugin indent on
-
-
-" NOTE: 以下配置有详细说明，一些特性不喜欢可以直接注解掉
 
 "==========================================
 " General Settings 基础设置
@@ -601,11 +614,13 @@ highlight SpellLocal term=underline cterm=underline
 " 设置vundle参数
 filetype off                  " 必须
 
-" 设置包括vundle和初始化相关的runtime path
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" 另一种选择, 指定一个vundle安装插件的路径
-"call vundle#begin('~/some/path/here')
+if g:islinux
+    set rtp+=~/.vim/bundle/Vundle.vim
+    call vundle#begin()
+else
+    set rtp+=$VIM/vimfiles/bundle/vundle/
+    call vundle#rc('$VIM/vimfiles/bundle/')
+endif
 
 " 让vundle管理插件版本,必须
 Plugin 'VundleVim/Vundle.vim'
@@ -632,10 +647,10 @@ Bundle 'scrooloose/nerdcommenter'
 " 迄今为止用到的最好的自动VIM自动补全插件
 " 重启 :YcmRestartServer
 "Bundle 'Valloric/YouCompleteMe'
-"Bundle 'Shougo/neocomplete.vim'
 
-" 你的所有插件需要在下面这行之前
+if g:islinux
 call vundle#end()            " 必须
+endif
 filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和文件类型相关脚本
 " 忽视插件改变缩进,可以使用以下替代:
 "filetype plugin on
@@ -650,9 +665,11 @@ filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和
 " 将你自己对非插件片段放在这行之后
 
 
+if g:iswindows
 "解决菜单乱码
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 "解决console输出乱码
 language message zh_CN.utf-8
+endif
 
