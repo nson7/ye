@@ -184,6 +184,21 @@ fun! Tlist()
     endif
 endfun
 
+" function scroll
+let g:TguiMode = 0
+nnoremap <leader>tt :call Tgui()<cr>
+fun! Tgui()
+    if g:TguiMode == 0
+        set guioptions=r 
+        let g:TguiMode = 1
+    else
+        set guioptions-=r
+        let g:TguiMode = 0
+    endif
+endfun
+
+set gcr=a:blinkon0
+
 " 缩进配置
 " Smart indent
 set smartindent
