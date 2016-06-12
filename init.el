@@ -29,6 +29,7 @@
 
 ;; custom
 (blink-cursor-mode -1)
+(setq gnus-inhibit-startup-message t)
 ;;设置有用的个人信息,这在很多地方有用。
 ;; (setq gnus-select-method '(nntp "http://www.zhihu.com/rss"))
 ;; (setq user-full-name "nson7")
@@ -173,6 +174,7 @@
   ;; Locales (setting them earlier in this file doesn't work in X)
   ;;----------------------------------------------------------------------------
   (require 'init-locales)
+  (require 'init-unicad)
 
   ;; my personal setup, other major-mode specific setup need it.
   ;; It's dependent on init-site-lisp.el
