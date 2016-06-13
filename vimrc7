@@ -9,7 +9,7 @@ if(has("win32") || has("win64") || has("win95") || has("win16"))
 else
     let g:islinux = 1
 endif
- 
+
 " -----------------------------------------------------------------------------
 "  < 判断是终端还是 Gvim >
 " -----------------------------------------------------------------------------
@@ -157,10 +157,10 @@ set smartcase
 " syntax    使用语法定义折叠
 " diff      对没有更改的文本进行折叠
 " marker    使用标记进行折叠, 默认标记是 {{{ 和 }}}
-set foldmethod=indent 
+set foldmethod=indent
 set foldlevel=99
 let g:FoldMethod = 0
-noremap <leader>zi :call ToggleFold()<cr>
+nnoremap <leader>zi :call ToggleFold()<cr>
 fun! ToggleFold()
     if g:FoldMethod == 0
         exe "normal! zM"
@@ -173,7 +173,7 @@ endfun
 
 " function list
 let g:TlistMode = 0
-noremap <leader>ff :call Tlist()<cr>
+nnoremap <leader>ff :call Tlist()<cr>
 fun! Tlist()
     if g:TlistMode == 0
         TlistOpen
@@ -186,10 +186,10 @@ endfun
 
 " function scroll
 let g:TguiMode = 0
-noremap <leader>tt :call Tgui()<cr>
+nnoremap <leader>tt :call Tgui()<cr>
 fun! Tgui()
     if g:TguiMode == 0
-        set guioptions=r 
+        set guioptions=r
         let g:TguiMode = 1
     else
         set guioptions-=r
@@ -242,7 +242,7 @@ function! NumberToggle()
     set relativenumber
   endif
 endfunc
-noremap <leader>nu :call NumberToggle()<cr>
+nnoremap <leader>nu :call NumberToggle()<cr>
 
 "==========================================
 " FileEncode Settings 文件编码,格式
@@ -296,13 +296,13 @@ endif
 
 "Treat long lines as break lines (useful when moving around in them)
 "se swap之后，同物理行上线直接跳
-noremap k gk
-noremap gk k
-noremap j gj
-noremap gj j
-noremap <leader>bb :b#<cr> 
-noremap <leader>mm :only<cr> 
-noremap ;; q:k<CR>
+nnoremap k gk
+nnoremap gk k
+nnoremap j gj
+nnoremap gj j
+nnoremap <leader>bb :b#<cr>
+nnoremap <leader>mm :only<cr>
+nnoremap ;; q:k<CR>
 
 inoremap ( ()<ESC>i
 inoremap [ []<ESC>i
@@ -316,36 +316,36 @@ map <C-l> <C-W>l
 
 
 " Go to home and end using capitalized directions
-noremap H ^
-noremap L $
+nnoremap H ^
+nnoremap L $
 
 " 搜索相关
-noremap <space> :nohls<CR>
+nnoremap <space> :nohls<CR>
 
 " Keep search pattern at the center of the screen.
-noremap <silent> n nzz
-noremap <silent> N Nzz
-noremap <silent> * *zz
-noremap <silent> # #zz
-noremap <silent> g* g*zz
+nnoremap <silent> n nzz
+nnoremap <silent> N Nzz
+nnoremap <silent> * *zz
+nnoremap <silent> # #zz
+nnoremap <silent> g* g*zz
 
 " for # indent, python文件中输入新行时#号注释不切回行首
 autocmd BufNewFile,BufRead *.py inoremap # X<c-h>#
 
 " normal模式下切换到确切的tab
-noremap <leader>1 1gt
-noremap <leader>2 2gt
-noremap <leader>3 3gt
-noremap <leader>4 4gt
-noremap <leader>5 5gt
-noremap <leader>6 6gt
-noremap <leader>7 7gt
-noremap <leader>8 8gt
-noremap <leader>9 9gt
-noremap <leader>0 :tablast<cr>
+nnoremap <leader>1 1gt
+nnoremap <leader>2 2gt
+nnoremap <leader>3 3gt
+nnoremap <leader>4 4gt
+nnoremap <leader>5 5gt
+nnoremap <leader>6 6gt
+nnoremap <leader>7 7gt
+nnoremap <leader>8 8gt
+nnoremap <leader>9 9gt
+nnoremap <leader>0 :tablast<cr>
 
 " y$ -> Y Make Y behave like other capitals
-map Y y$
+nnoremap Y y$
 
 " 复制选中区到系统剪切板中
 vnoremap <leader>y "+y
@@ -354,7 +354,7 @@ vnoremap <leader>y "+y
 inoremap kj <Esc>
 
 "remap U to <C-r> for easier redo
-noremap U <C-r>
+nnoremap U <C-r>
 
 "==========================================
 " FileType Settings  文件类型设置
@@ -379,31 +379,31 @@ fun! <SID>StripTrailingWhitespaces()
 endfun
 autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
-"新建.c,.h,.sh,.java文件，自动插入文件头 
-autocmd BufNewFile *.cpp,*.[ch],*.sh,*.rb,*.java,*.py exec ":call SetTitle()" 
-""定义函数SetTitle，自动插入文件头 
+"新建.c,.h,.sh,.java文件，自动插入文件头
+autocmd BufNewFile *.cpp,*.[ch],*.sh,*.rb,*.java,*.py exec ":call SetTitle()"
+""定义函数SetTitle，自动插入文件头
 function! SetTitle()
-	"如果文件类型为.sh文件 
+	"如果文件类型为.sh文件
 	if expand("%:e") == 'sh'
-		call setline(1,"\#!/bin/bash") 
-		call append(line("."), "") 
+		call setline(1,"\#!/bin/bash")
+		call append(line("."), "")
     elseif expand("%:e") == 'py'
         call setline(1,"#!/usr/bin/env python")
         call append(line("."),"# coding=utf-8")
-	    call append(line(".")+1, "") 
+	    call append(line(".")+1, "")
 
     elseif expand("%:e") == 'rb'
         call setline(1,"#!/usr/bin/env ruby")
         call append(line("."),"# encoding: utf-8")
 	    call append(line(".")+1, "")
 
-	else 
-		call setline(1, "/*************************************************************************") 
-		call append(line("."), "    > File Name: ".expand("%")) 
-		call append(line(".")+1, "	> Author: nson7") 
-		call append(line(".")+2, "	> Mail: nson7@sina.com") 
-		call append(line(".")+3, "	> Created Time: ".strftime("%c")) 
-		call append(line(".")+4, " ************************************************************************/") 
+	else
+		call setline(1, "/*************************************************************************")
+		call append(line("."), "    > File Name: ".expand("%"))
+		call append(line(".")+1, "	> Author: nson7")
+		call append(line(".")+2, "	> Mail: nson7@sina.com")
+		call append(line(".")+3, "	> Created Time: ".strftime("%c"))
+		call append(line(".")+4, " ************************************************************************/")
 		call append(line(".")+5, "")
 	endif
 	if expand("%:e") == 'cpp'
@@ -427,7 +427,7 @@ function! SetTitle()
 		call append(line(".")+7,"")
 	endif
 	"新建文件后，自动定位到文件末尾
-endfunc 
+endfunc
 autocmd BufNewFile * normal G
 
 " 设置可以高亮的关键字
@@ -575,7 +575,7 @@ highlight SpellLocal term=underline cterm=underline
 " ctrlp ctrlpfunky{{{
     let g:ctrlp_map = '<leader>jj'
     let g:ctrlp_cmd = 'CtrlP'
-    noremap <leader>kk :CtrlPMRU<CR>
+    nnoremap <leader>kk :CtrlPMRU<CR>
     let g:ctrlp_custom_ignore = {
         \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
         \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz|pyc)$',
@@ -596,7 +596,7 @@ highlight SpellLocal term=underline cterm=underline
 
     " ctrlpfunky
     " ctrlp插件1 - 不用ctag进行函数快速跳转
-    noremap <Leader>ii :CtrlPFunky<Cr>
+    nnoremap <Leader>ii :CtrlPFunky<Cr>
     " narrow the list down with a word under cursor
     "nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
     let g:ctrlp_funky_syntax_highlight = 1
@@ -607,7 +607,7 @@ highlight SpellLocal term=underline cterm=underline
 " ################### 快速导航 ###################
 
 " nerdtree nerdtreetabs {{{
-    noremap <leader>nn :NERDTreeToggle<CR>
+    nnoremap <leader>nn :NERDTreeToggle<CR>
     let NERDTreeHighlightCursorline=1
     let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
     "close vim if the only window left open is a NERDTree
@@ -689,8 +689,8 @@ highlight SpellLocal term=underline cterm=underline
 
     nnoremap <silent> <Plug>LocationPrevious    :<C-u>exe 'call <SID>LocationPrevious()'<CR>
     nnoremap <silent> <Plug>LocationNext        :<C-u>exe 'call <SID>LocationNext()'<CR>
-    nmap <silent> <Leader>ep    <Plug>LocationPrevious
-    nmap <silent> <Leader>en    <Plug>LocationNext
+    nnoremap <silent> <Leader>ep    <Plug>LocationPrevious
+    nnoremap <silent> <Leader>en    <Plug>LocationNext
 
     " 修改高亮的背景色, 适应主题
     highlight SyntasticErrorSign guifg=white guibg=black
@@ -753,7 +753,7 @@ highlight SpellLocal term=underline cterm=underline
 " }}}
 
 " trailingwhitespace {{{
-    map <leader><space> :FixWhitespace<cr>
+    nnoremap <leader><space> :FixWhitespace<cr>
 " }}}
 
 " ################### 快速移动 ###################
@@ -761,12 +761,12 @@ highlight SpellLocal term=underline cterm=underline
 " easymotion {{{
     let g:EasyMotion_smartcase = 1
     "let g:EasyMotion_startofline = 0 " keep cursor colum when JK motion
-    map <Leader><leader>h <Plug>(easymotion-linebackward)
-    map <Leader><Leader>j <Plug>(easymotion-j)
-    map <Leader><Leader>k <Plug>(easymotion-k)
-    map <Leader><leader>l <Plug>(easymotion-lineforward)
+    nnoremap <Leader><leader>h <Plug>(easymotion-linebackward)
+    nnoremap <Leader><Leader>j <Plug>(easymotion-j)
+    nnoremap <Leader><Leader>k <Plug>(easymotion-k)
+    nnoremap <Leader><leader>l <Plug>(easymotion-lineforward)
     " 重复上一次操作, 类似repeat插件, 很强大
-    map <Leader><leader>. <Plug>(easymotion-repeat)
+    nnoremap <Leader><leader>. <Plug>(easymotion-repeat)
 " }}}
 
 
@@ -779,22 +779,111 @@ highlight SpellLocal term=underline cterm=underline
     " let g:qs_second_occurrence_highlight_color = 81         " terminal vim
 " }}}
 
-" ################### 快速选中 ###################
+if g:islinux
+" neocomplete {
+    let g:acp_enableAtStartup = 0
+    let g:neocomplete#enable_at_startup = 1
+    let g:neocomplete#enable_smart_case = 1
+    let g:neocomplete#enable_auto_delimiter = 1
+    let g:neocomplete#max_list = 15
+    let g:neocomplete#force_overwrite_completefunc = 1
 
-" expandregion {{{
-    " map + <Plug>(expand_region_expand)
-    " map _ <Plug>(expand_region_shrink)
-    vmap m <Plug>(expand_region_expand)
-    vmap M <Plug>(expand_region_shrink)
-    " Extend the global default
-    "call expand_region#custom_text_objects({
-      \ 'a]' :1,
-      \ 'ab' :1,
-      \ 'aB' :1,
-      \ 'ii' :0,
-      \ 'ai' :0,
-      \ })
-" }}}
+
+    " Define dictionary.
+    let g:neocomplete#sources#dictionary#dictionaries = {
+                \ 'default' : '',
+                \ 'vimshell' : $HOME.'/.vimshell_hist',
+                \ 'scheme' : $HOME.'/.gosh_completions'
+                \ }
+
+    " Define keyword.
+    if !exists('g:neocomplete#keyword_patterns')
+        let g:neocomplete#keyword_patterns = {}
+    endif
+    let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+    " Plugin key-mappings {
+        " These two lines conflict with the default digraph mapping of <C-K>
+        if !exists('g:spf13_no_neosnippet_expand')
+            imap <C-k> <Plug>(neosnippet_expand_or_jump)
+            smap <C-k> <Plug>(neosnippet_expand_or_jump)
+        endif
+        if exists('g:spf13_noninvasive_completion')
+            inoremap <CR> <CR>
+            " <ESC> takes you out of insert mode
+            inoremap <expr> <Esc>   pumvisible() ? "\<C-y>\<Esc>" : "\<Esc>"
+            " <CR> accepts first, then sends the <CR>
+            inoremap <expr> <CR>    pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
+            " <Down> and <Up> cycle like <Tab> and <S-Tab>
+            inoremap <expr> <Down>  pumvisible() ? "\<C-n>" : "\<Down>"
+            inoremap <expr> <Up>    pumvisible() ? "\<C-p>" : "\<Up>"
+            " Jump up and down the list
+            inoremap <expr> <C-d>   pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
+            inoremap <expr> <C-u>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
+        else
+            " <C-k> Complete Snippet
+            " <C-k> Jump to next snippet point
+            imap <silent><expr><C-k> neosnippet#expandable() ?
+                        \ "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ?
+                        \ "\<C-e>" : "\<Plug>(neosnippet_expand_or_jump)")
+            smap <TAB> <Right><Plug>(neosnippet_jump_or_expand)
+
+            inoremap <expr><C-g> neocomplete#undo_completion()
+            inoremap <expr><C-l> neocomplete#complete_common_string()
+            "inoremap <expr><CR> neocomplete#complete_common_string()
+
+            " <CR>: close popup
+            " <s-CR>: close popup and save indent.
+            inoremap <expr><s-CR> pumvisible() ? neocomplete#smart_close_popup()."\<CR>" : "\<CR>"
+
+            " <C-h>, <BS>: close popup and delete backword char.
+            inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+            inoremap <expr><C-y> neocomplete#smart_close_popup()
+        endif
+        " <TAB>: completion.
+        inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+        inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
+
+        " Courtesy of Matteo Cavalleri
+
+        function! CleverTab()
+            if pumvisible()
+                return "\<C-n>"
+            endif
+            let substr = strpart(getline('.'), 0, col('.') - 1)
+            let substr = matchstr(substr, '[^ \t]*$')
+            if strlen(substr) == 0
+                " nothing to match on empty string
+                return "\<Tab>"
+            else
+                " existing text matching
+                if neosnippet#expandable_or_jumpable()
+                    return "\<Plug>(neosnippet_expand_or_jump)"
+                else
+                    return neocomplete#start_manual_complete()
+                endif
+            endif
+        endfunction
+
+        imap <expr> <Tab> CleverTab()
+    " }
+
+    " Enable heavy omni completion.
+    if !exists('g:neocomplete#sources#omni#input_patterns')
+        let g:neocomplete#sources#omni#input_patterns = {}
+    endif
+    let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+    let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+    let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+    let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+    let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
+" }
+
+" SuperTab
+" let g:SuperTabDefultCompletionType='context'
+"let g:SuperTabDefaultCompletionType = '<C-X><C-U>'
+ let g:SuperTabRetainCompletionType=2
+endif
 
 " 设置vundle参数
 filetype off                  " 必须
@@ -813,7 +902,7 @@ Bundle 'ctags.vim'
 Bundle 'taglist.vim'
 " nav
 " nerdtree nerdtreetabs
-Bundle 'scrooloose/nerdtree' 
+Bundle 'scrooloose/nerdtree'
 "Bundle 'jistr/vim-nerdtree-tabs'
 " 主题 solarized
 " solarized
@@ -825,7 +914,7 @@ Bundle 'tomasr/molokai'
 " 文件搜索
 " change to https://github.com/ctrlpvim/ctrlp.vim
 " ctrlp ctrlpfunky
-Bundle 'ctrlpvim/ctrlp.vim' 
+Bundle 'ctrlpvim/ctrlp.vim'
 Bundle 'tacahiroy/ctrlp-funky'
 " quick edit
 " 快速注释
@@ -852,11 +941,6 @@ Bundle 'Lokaltog/vim-easymotion'
 " quickscope
 Bundle 'unblevable/quick-scope'
 
-" quick selection and edit
-" expandregion
-" 选中区块
-Bundle 'terryma/vim-expand-region'
-
 if g:islinux
 " git
 " fugitive
@@ -870,10 +954,15 @@ Bundle 'sjl/gundo.vim'
 
 " syntastic
 "Bundle 'scrooloose/syntastic'
+
+Bundle 'Shougo/neocomplete'
+Bundle 'ervandew/supertab'
 " auto complete
 " 代码自动补全
 " 迄今为止用到的最好的自动VIM自动补全插件
 " 重启 :YcmRestartServer
+"python install.py --clang-completer"
+"git submodule update --init --recursive
 "Bundle 'Valloric/YouCompleteMe'
 endif
 
