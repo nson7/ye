@@ -351,6 +351,7 @@ map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
+map <C-r> <C-W>r
 
 
 " Go to home and end using capitalized directions
@@ -1060,6 +1061,11 @@ Bundle 'sjl/gundo.vim'
 
 Bundle 'Shougo/neocomplete'
 Bundle 'ervandew/supertab'
+
+" vimshell
+Bundle 'Shougo/vimshell'
+Bundle 'Shougo/vimproc.vim'
+
 " auto complete
 " 代码自动补全
 " 迄今为止用到的最好的自动VIM自动补全插件
