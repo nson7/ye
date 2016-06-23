@@ -631,6 +631,9 @@ highlight SpellLocal term=underline cterm=underline
 " ################### 功能相关 ###################
 
 " ctrlp ctrlpfunky{{{
+    "move
+    " <C-j>: down
+    " <C-K>: up
     let g:ctrlp_map = '<leader>jj'
     let g:ctrlp_cmd = 'CtrlP'
     nnoremap <leader>kk :CtrlPMRU<CR>
@@ -683,6 +686,14 @@ highlight SpellLocal term=underline cterm=underline
     let g:nerdtree_tabs_open_on_console_startup=0
     let g:nerdtree_tabs_open_on_gui_startup=0
 " }}}
+
+" taglist {{{
+    " let Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
+    let Tlist_Show_One_File = 1 "不同时显示多个文件的tag，只显示当前文件的
+    " let Tlist_File_Fold_Auto_Close = 1
+    let Tlist_Exit_OnlyWindow = 1 "如果taglist窗口是最后一个窗口，则退出vim
+" }}}
+
 
 " syntastic {{{
     " dependence
@@ -783,7 +794,7 @@ highlight SpellLocal term=underline cterm=underline
 
 " gitgutter {{{
     " 同git diff,实时展示文件中修改的行
-    " 只是不喜欢除了行号多一列, 默认关闭,gs时打开
+    " 只是不喜欢除了行号多一列, 默认关闭,gg时打开
     let g:gitgutter_map_keys = 0
     let g:gitgutter_enabled = 0
     let g:gitgutter_highlight_lines = 1
