@@ -164,6 +164,9 @@ set ignorecase
 " 有一个或以上大写字母时仍大小写敏感
 set smartcase
 
+set tags=tags;
+set autochdir
+
 " 代码折叠
 "set foldenable
 " 折叠方法
