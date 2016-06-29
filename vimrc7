@@ -343,6 +343,11 @@ map <C-h> <C-W>h
 map <C-l> <C-W>l
 map <C-r> <C-W>r
 
+" cscope
+set cscopequickfix=s-,c-,d-,i-,t-,e-
+nmap <C-n> :cnext<CR>
+nmap <C-p> :cprev<CR>
+
 if has("cscope")
     set csprg=/usr/bin/cscope
     set csto=0
