@@ -323,7 +323,6 @@ nnoremap gk k
 nnoremap j gj
 nnoremap gj j
 nnoremap <leader>bb :b#<cr>
-nnoremap <leader>mm :only<cr>
 nnoremap ;; q:k<CR>
 
 inoremap ( ()<ESC>i
@@ -342,6 +341,7 @@ map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 map <C-r> <C-W>r
+nmap <C-o> <C-W>o
 
 " cscope
 set cscopequickfix=s-,c-,d-,i-,t-,e-
