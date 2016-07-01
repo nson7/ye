@@ -30,11 +30,12 @@
 ;; custom
 (blink-cursor-mode -1)
 (setq gnus-inhibit-startup-message t)
-;; 不要临时文件
+;;不要临时文件
 (setq make-backup-files nil)
 (setq auto-save-default nil)
 (setq backup-inhibited t);;不产生备份
 ;; "jj" 'delete-trailing-whitespace
+;; "dd" 'ggtags-grep
 
 ;; @see https://www.reddit.com/r/emacs/comments/3kqt6e/2_easy_little_known_steps_to_speed_up_emacs_start/
 ;; Normally file-name-handler-alist is set to
