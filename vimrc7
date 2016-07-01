@@ -190,6 +190,17 @@ fun! ToggleFold()
     endif
 endfun
 
+" vimshell
+if g:islinux
+nnoremap <leader>vs :call VimShell()<cr>
+fun! VimShell()
+        set noacd
+        " :VimShell
+        :execute 'VimShell'
+        set acd
+endfun
+endif
+
 " function scroll
 let g:TguiMode = 0
 nnoremap <leader>tt :call Tgui()<cr>
