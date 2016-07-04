@@ -688,12 +688,12 @@ highlight SpellLocal term=underline cterm=underline
     let g:ctrlp_mruf_max=500
     let g:ctrlp_follow_symlinks=1
     " 如果安装了ag, 使用ag
-    " if executable('ag')
-    " " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-    " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-    " " ag is fast enough that CtrlP doesn't need to cache
-    " let g:ctrlp_use_caching = 0
-    " endif
+    if executable('ag')
+    " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    " ag is fast enough that CtrlP doesn't need to cache
+    let g:ctrlp_use_caching = 0
+    endif
 
     " ctrlpfunky
     " ctrlp插件1 - 不用ctag进行函数快速跳转
@@ -1238,6 +1238,16 @@ Bundle 'ervandew/supertab'
 " vimshell
 Bundle 'Shougo/vimshell'
 Bundle 'Shougo/vimproc.vim'
+
+if executable('ag')
+Bundle 'mileszs/ack.vim'
+let g:ackprg = 'ag --nogroup --nocolor --column --smart-case'
+elseif executable('ack-grep')
+let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+Bundle 'mileszs/ack.vim'
+elseif executable('ack')
+Bundle 'mileszs/ack.vim'
+endif
 
 " auto complete
 " 代码自动补全
