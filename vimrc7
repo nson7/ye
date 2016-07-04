@@ -70,9 +70,6 @@ set wildignore=*.swp,*.bak,*.pyc,*.class,.svn
 " 离开插入模式后自动关闭预览窗口
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
-" 回车即选中当前项
-inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
-
 " In the quickfix window, <CR> is used to jump to the error under the
 " cursor, so undefine the mapping there.
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
@@ -613,6 +610,7 @@ highlight SpellLocal term=underline cterm=underline
 
 " ################### 自动补全 ###################
 
+if 0
 " YouCompleteMe {{{
     "youcompleteme  默认tab  s-tab 和自动补全冲突
     "let g:ycm_key_list_select_completion=['<c-n>']
@@ -653,6 +651,7 @@ highlight SpellLocal term=underline cterm=underline
         \ 'gitcommit' : 1,
         \}
 " }}}
+endif
 
 " ################### 快速编码 ###################
 
@@ -706,7 +705,9 @@ highlight SpellLocal term=underline cterm=underline
 " }}}
 
 " Ack{{{
-    nnoremap <Leader>aa :Ack <C-R>=expand("<cword>")<CR><CR>
+    if g:islinux
+        nnoremap <Leader>aa :Ack! <C-R>=expand("<cword>")<CR><CR>
+    endif
 " }}}
 
 " ################### 快速导航 ###################
