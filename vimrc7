@@ -1048,6 +1048,7 @@ endif
     let g:closetag_html_style=1
 " }}}
 
+if g:islinux
 " Snippets {
         " Use honza's snippets.
         let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
@@ -1071,7 +1072,6 @@ endif
         set completeopt-=preview
 " }
 
-if g:islinux
 " neocomplete {{{
     let g:acp_enableAtStartup = 0
     let g:neocomplete#enable_at_startup = 1
@@ -1233,11 +1233,6 @@ Bundle 'unblevable/quick-scope'
 " 选中区块
 Bundle 'terryma/vim-expand-region'
 
-" snippets
-Bundle 'Shougo/neosnippet'
-Bundle 'Shougo/neosnippet-snippets'
-Bundle 'honza/vim-snippets'
-
 if g:islinux
 " git
 " fugitive
@@ -1253,6 +1248,10 @@ Bundle 'sjl/gundo.vim'
 "Bundle 'scrooloose/syntastic'
 
 Bundle 'Shougo/neocomplete'
+" snippets
+Bundle 'Shougo/neosnippet'
+Bundle 'Shougo/neosnippet-snippets'
+Bundle 'honza/vim-snippets'
 Bundle 'ervandew/supertab'
 
 " vimshell
