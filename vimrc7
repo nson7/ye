@@ -1235,7 +1235,7 @@ Bundle 'terryma/vim-expand-region'
 
 " snippets
 Bundle 'Shougo/neosnippet'
-" Bundle 'Shougo/neosnippet-snippets'
+Bundle 'Shougo/neosnippet-snippets'
 Bundle 'honza/vim-snippets'
 
 if g:islinux
