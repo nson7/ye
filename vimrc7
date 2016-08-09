@@ -509,8 +509,13 @@ endif
 set nocompatible              " be iMproved, required"
 filetype off                  " 必须
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+if g:islinux
+    set rtp+=~/.vim/bundle/Vundle.vim
+    call vundle#begin()
+else
+    set rtp+=$VIM/vimfiles/bundle/vundle/
+    call vundle#rc('$VIM/vimfiles/bundle/')
+endif
 
 " 让vundle管理插件版本,必须
 Bundle 'VundleVim/Vundle.vim'
@@ -607,7 +612,9 @@ endif
 "Bundle 'Valloric/YouCompleteMe'
 endif
 
-call vundle#end()            " 必须
+if g:islinux
+    call vundle#end()            " 必须
+endif
 filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和文件类型相关脚本
 " 忽视插件改变缩进,可以使用以下替代:
 "filetype plugin on
