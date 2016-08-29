@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define DEBUG
+/* #define NDEBUG */
+#include <assert.h>
+
 void *v_memcpy(void *dest, const void *src, size_t count)
 {
     char *tmp_dest = dest;
@@ -45,6 +49,9 @@ int p_strlen(const char *str)
 
 char *v_strcpy(char *dest, const char *src)
 {
+    assert(dest != NULL);
+    assert(src != NULL);
+
     char *tmp_dest = dest;
     const char *tmp_src = src;
 
@@ -238,7 +245,10 @@ int main()
     const char *tmpStr = "and";
     char tStr[70];
     char nStr[50] = "just do it";
+    char *pStr = (char *)malloc(sizeof(char)*20);
 
+    v_strcpy(pStr, nStr);
+    printf("pStr=%s\n", pStr);
     printf("str = %s\n", v_strstr(mStr, tmpStr));
 
     exit(0);
