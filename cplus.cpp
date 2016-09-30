@@ -9,11 +9,12 @@ using namespace std;
 class A
 {
     public :
-        void max(int *i, int *j);
+        void swap(int *i, int *j);
         void show();
+        virtual void sum(int i, int j);
 };
 
-void A::max(int *i, int *j)
+void A::swap(int *i, int *j)
 {
     *i ^= *j;
     *j ^= *i;
@@ -27,53 +28,108 @@ void A::show()
     printf("A-----\r\n");
 }
 
-class B : public A
+void A::sum(int i, int j)
 {
-    public :
-        void max(int *i, int *j);
-};
-
-void B::max(int *i, int *j)
-{
-    A::max(i, j);
+    printf("sum=%d\r\n", i-j);
 }
 
-class C
+class B
 {
     public :
         void show();
+        void sum(int i, int j);
 };
+
+void B::show()
+{
+    printf("B-----\r\n");
+}
+
+void B::sum(int i, int j)
+{
+    printf("sum=%d\r\n", i+j);
+}
+
+class C : public A, public B
+{
+    friend void callback();
+    public :
+        int common;
+        void show();
+        void sum(int i, int j);
+
+    private :
+        char c;
+        int value;
+};
+
+void callback()
+{
+    C c;
+    c.value = 100;
+    c.c = 'n';
+    printf("value=%d, c=%c\r\n", c.value, c.c);
+}
 
 void C::show()
 {
-    printf("C------\r\n");
+    A::show();
 }
 
-class D : public A, public C
+void C::sum(int i, int j)
 {
-};
+    A::sum(i, j);
+}
 
 int n = 100;
 
+class D
+{
+    public :
+        D(int i);
+        ~D();
+        void show();
+    private :
+        int value;
+
+};
+
+D::D(int i)
+{
+    value = i;
+    printf("crate D ----\r\n");
+}
+
+D::~D()
+{
+    printf("delete D------\r\n");
+}
+
+void D::show()
+{
+    printf("value=%d\r\n", value);
+}
+
 int main()
 {
-    int *i = (int *)malloc(sizeof(int)*5);
-
     int n = 5;
     int z = 7;
 
-    class B b;
-    b.max(&n,&z);
-    printf("n=%d, z=%d\r\n", n, z);
+    D *d = new D(11);
+    d->show();
+    delete d;
 
-    char str[100] = "string-----";
-    char *tempstr = (char *)malloc(sizeof(char) * 200);
+    C c;
+    C *pc;
+    c.show();
+    c.swap(&n, &z);
+    callback();
+    c.common = 11;
+    c.sum(3, 2);
+    c.B::sum(3, 2);
 
-    strcpy(tempstr, str);
-    cout << "cout<<=" << tempstr << "\r\n";
-    cout << ::n << "\r\n";
-    cout << n << "\r\n";
-    printf("n=%d\r\n", ::n);
-        return 0;
+    printf("n=%d, z=%d c=%d\r\n", n, z, c.common);
+
+    return 0;
 }
 
