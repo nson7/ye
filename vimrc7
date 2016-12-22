@@ -506,7 +506,7 @@ endif
 "==========================================
 
 " Windows
-" git clone https://github.com/gmarik/vundle "C:\Program Files (x86)\Vim\vimfiles\bundle\vundle"
+" git clone https://github.com/VundleVim/Vundle.vim.git C:\Program Files (x86)\Vim\vimfiles\bundle\Vundle.vim"
 " Linux
 " git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
