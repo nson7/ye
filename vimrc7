@@ -482,8 +482,7 @@ function! SetTitle()
 		call append(line(".")+6, "#ifndef _".toupper(expand("%:r"))."_H")
 		call append(line(".")+7, "#define _".toupper(expand("%:r"))."_H")
 		call append(line(".")+8, "#endif")
-		call append(line(".")+9, "#endif")
-		call append(line(".")+10,"")
+		call append(line(".")+9,"")
 	endif
 	if expand("%:e") == 'java'
 		call append(line(".")+6,"public class ".expand("%:r"))
@@ -505,6 +504,11 @@ endif
 "==========================================
 " Vundle
 "==========================================
+
+" Windows
+" git clone https://github.com/gmarik/vundle "C:\Program Files (x86)\Vim\vimfiles\bundle\vundle"
+" Linux
+" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 " 设置vundle参数
 set nocompatible              " be iMproved, required"
