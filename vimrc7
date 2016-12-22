@@ -518,7 +518,7 @@ if g:islinux
     set rtp+=~/.vim/bundle/Vundle.vim
     call vundle#begin()
 else
-    set rtp+=$VIM/vimfiles/bundle/vundle/
+    set rtp+=$VIM/vimfiles/bundle/Vundle.vim/
     call vundle#rc('$VIM/vimfiles/bundle/')
 endif
 
