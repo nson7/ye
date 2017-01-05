@@ -58,6 +58,11 @@ set autoread
 " 启动的时候不显示那个援助乌干达儿童的提示
 set shortmess=atI
 
+"当打开vim且没有文件时自动打开NERDTree
+autocmd vimenter * if !argc() | NERDTree | endif
+" 只剩 NERDTree时自动关闭
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
 " 备份,到另一个位置. 防止误删, 目前是取消备份
 "set backup
 "set backupext=.bak
@@ -339,6 +344,12 @@ nnoremap <C-l> <C-W>l
 nnoremap <C-r> <C-W>r " 分屏窗口交换
 nnoremap <C-o> <C-W>o "全屏
 
+" 命令行模式增强，ctrl - a到行首， -e 到行尾
+cnoremap <C-j> <t_kd>
+cnoremap <C-k> <t_ku>
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+
 " y$ -> Y Make Y behave like other capitals
 nnoremap Y y$
 
@@ -361,7 +372,7 @@ nnoremap L $
 nnoremap U <C-r>
 
 " 搜索相关
-nnoremap <space> :nohls<CR>
+nnoremap <silent><space> :nohls<CR>
 
 " Keep search pattern at the center of the screen.
 nnoremap <silent> n nzz
@@ -661,11 +672,11 @@ filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和
 " Set extra options when running in GUI mode
 if has("gui_running")
     set guifont=courier_new:h14
-    if has("gui_gtk2")   "GTK2
+    if has("gui_gtk")
         set guifont=courier\New\ 14,Arial\ 14
     endif
     set guioptions-=T
-    set guioptions-=e
+    set guioptions+=e
     set guioptions-=r
     set guioptions-=L
     set guioptions-=m
