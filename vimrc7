@@ -42,6 +42,7 @@ filetype plugin indent on
 
 " history存储容量
 set history=70
+set gcr=a:blinkon0
 
 " 检测文件类型
 filetype on
@@ -203,8 +204,6 @@ fun! Tgui()
     endif
 endfun
 
-" http://stackoverflow.com/questions/13194428/is-better-way-to-zoom-windows-in-vim-than-zoomwin
-" Zoom / Restore window.
 function! s:ZoomToggle() abort
     if exists('t:zoomed') && t:zoomed
         execute t:zoom_winrestcmd
@@ -219,8 +218,6 @@ endfunction
 command! ZoomToggle call s:ZoomToggle()
 nnoremap <silent> <Leader>zz :ZoomToggle<CR>
 
-set gcr=a:blinkon0
-
 " 缩进配置
 " Smart indent
 set smartindent
@@ -230,7 +227,7 @@ set autoindent
 
 " tab相关变更
 " 设置Tab键的宽度        [等同的空格个数]
-set tabstop=4
+set tabstop=8
 " 每一次缩进对应的空格数
 set shiftwidth=4
 " 按退格键时可以一次删掉 4 个空格
@@ -291,9 +288,12 @@ set formatoptions+=B
 " others 其它设置
 "==========================================
 " vimrc文件修改之后自动加载, windows
-autocmd! bufwritepost _vimrc source %
-" vimrc文件修改之后自动加载, linux
+if g:islinux
 autocmd! bufwritepost .vimrc source %
+else
+autocmd! bufwritepost _vimrc source %
+endif
+" vimrc文件修改之后自动加载, linux
 
 " 自动补全配置
 " 让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
@@ -332,12 +332,12 @@ inoremap " ""<ESC>i
 inoremap ' ''<ESC>i
 
 " 分屏窗口移动, Smart way to move between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
-map <C-r> <C-W>r
-nmap <C-o> <C-W>o
+nnoremap <C-j> <C-W>j
+nnoremap <C-k> <C-W>k
+nnoremap <C-h> <C-W>h
+nnoremap <C-l> <C-W>l
+nnoremap <C-r> <C-W>r " 分屏窗口交换
+nnoremap <C-o> <C-W>o "全屏
 
 " y$ -> Y Make Y behave like other capitals
 nnoremap Y y$
@@ -347,14 +347,57 @@ vnoremap <leader>y "+y
 noremap <leader>p "+p
 
 " select all
-map <C-a> ggVG
+" map <C-a> ggVG
 
 " kj 替换 Esc
 inoremap kj <Esc>
 vnoremap kj <Esc>
 
+" Go to home and end using capitalized directions
+nnoremap H ^
+nnoremap L $
+
 "remap U to <C-r> for easier redo
 nnoremap U <C-r>
+
+" 搜索相关
+nnoremap <space> :nohls<CR>
+
+" Keep search pattern at the center of the screen.
+nnoremap <silent> n nzz
+nnoremap <silent> N Nzz
+nnoremap <silent> * *zz
+nnoremap <silent> # #zz
+nnoremap <silent> g* g*zz
+
+" for # indent, python文件中输入新行时#号注释不切回行首
+autocmd BufNewFile,BufRead *.py inoremap # X<c-h>#
+
+" normal模式下切换到确切的tab
+nnoremap <leader>1 1gt
+nnoremap <leader>2 2gt
+nnoremap <leader>3 3gt
+nnoremap <leader>4 4gt
+nnoremap <leader>5 5gt
+nnoremap <leader>6 6gt
+nnoremap <leader>7 7gt
+nnoremap <leader>8 8gt
+nnoremap <leader>9 9gt
+map <C-u> :tabonly<cr>
+
+" emacs HotKey
+nnoremap <leader>mm :!python %<cr>
+nnoremap <leader>cc :!gcc %<cr>
+nnoremap <leader>ee :!a.out<cr>
+
+nnoremap <M-x> :
+nnoremap <C-x>0 :wq<cr>
+nnoremap <C-x>1 <C-w>o
+nnoremap <C-x>2 :split<cr>
+nnoremap <C-x>3 :vsplit<cr>
+nnoremap <C-x>b :b#<cr>
+nnoremap <C-x><C-f> :e<Space>
+map <C-x><C-b> :ls<cr>
 
 " cscope
 set cscopequickfix=s-,c-,d-,i-,t-,e-
@@ -393,35 +436,6 @@ nnoremap <Leader>ww :cs find g <C-R>=expand("<cword>")<CR><CR>
 " nnoremap <Leader>aa :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
 " nnoremap <Leader>dd :cs find d <C-R>=expand("<cword>")<CR><CR>
 
-" Go to home and end using capitalized directions
-nnoremap H ^
-nnoremap L $
-
-" 搜索相关
-nnoremap <space> :nohls<CR>
-
-" Keep search pattern at the center of the screen.
-nnoremap <silent> n nzz
-nnoremap <silent> N Nzz
-nnoremap <silent> * *zz
-nnoremap <silent> # #zz
-nnoremap <silent> g* g*zz
-
-" for # indent, python文件中输入新行时#号注释不切回行首
-autocmd BufNewFile,BufRead *.py inoremap # X<c-h>#
-
-" normal模式下切换到确切的tab
-nnoremap <leader>1 1gt
-nnoremap <leader>2 2gt
-nnoremap <leader>3 3gt
-nnoremap <leader>4 4gt
-nnoremap <leader>5 5gt
-nnoremap <leader>6 6gt
-nnoremap <leader>7 7gt
-nnoremap <leader>8 8gt
-nnoremap <leader>9 9gt
-map <C-u> :tabonly<cr>
-
 "==========================================
 " FileType Settings  文件类型设置
 "==========================================
@@ -443,6 +457,7 @@ fun! <SID>StripTrailingWhitespaces()
 endfun
 autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
+if 0
 "新建.c,.h,.sh,.java文件，自动插入文件头
 autocmd BufNewFile *.cpp,*.[ch],*.sh,*.rb,*.java,*.py exec ":call SetTitle()"
 ""定义函数SetTitle，自动插入文件头
@@ -492,6 +507,7 @@ function! SetTitle()
 	"新建文件后，自动定位到文件末尾
 endfunc
 autocmd BufNewFile * normal G
+endif
 
 " 设置可以高亮的关键字
 if has("autocmd")
@@ -525,7 +541,7 @@ endif
 
 " 让vundle管理插件版本,必须
 Bundle 'VundleVim/Vundle.vim'
-Bundle 'taglist.vim'
+" Bundle 'taglist.vim'
 " tagbar
 Bundle 'majutsushi/tagbar'
 " nerdtree nerdtreetabs
@@ -562,12 +578,12 @@ Bundle 'bronson/vim-trailing-whitespace'
 " quick movement
 " easymotion
 "更高效的移动 [,, + w/fx/h/j/k/l]
-Bundle 'Lokaltog/vim-easymotion'
-"Bundle 'vim-scripts/matchit.zip'
+" Bundle 'Lokaltog/vim-easymotion'
+" Bundle 'vim-scripts/matchit.zip'
 
 " 更高效的行内移动, f/F/t/T, 才触发
 " quickscope
-Bundle 'unblevable/quick-scope'
+" Bundle 'unblevable/quick-scope'
 
 " quick selection and edit
 " expandregion
@@ -579,27 +595,29 @@ Bundle 'vim-scripts/a.vim'
 if g:islinux
 " git
 " fugitive
-Bundle 'tpope/vim-fugitive'
+" Bundle 'tpope/vim-fugitive'
 " gitgutter
-Bundle 'airblade/vim-gitgutter'
+" Bundle 'airblade/vim-gitgutter'
 
 " gundo
 " edit history, 可以查看回到某个历史状态
-Bundle 'sjl/gundo.vim'
+" Bundle 'sjl/gundo.vim'
 
 " syntastic
 "Bundle 'scrooloose/syntastic'
 
-Bundle 'Shougo/neocomplete'
+" Bundle 'Shougo/neocomplete'
 " snippets
-Bundle 'Shougo/neosnippet'
-Bundle 'Shougo/neosnippet-snippets'
-Bundle 'honza/vim-snippets'
+" Bundle 'Shougo/neosnippet'
+" Bundle 'Shougo/neosnippet-snippets'
+" Bundle 'honza/vim-snippets'
 Bundle 'ervandew/supertab'
 
+Bundle 'WinterXMQ/escalt.vim'
+
 " vimshell
-Bundle 'Shougo/vimshell'
-Bundle 'Shougo/vimproc.vim'
+" Bundle 'Shougo/vimshell'
+" Bundle 'Shougo/vimproc.vim'
 
 if executable('ag')
 Bundle 'mileszs/ack.vim'
@@ -647,9 +665,10 @@ if has("gui_running")
         set guifont=courier\New\ 14,Arial\ 14
     endif
     set guioptions-=T
-    set guioptions+=e
+    set guioptions-=e
     set guioptions-=r
     set guioptions-=L
+    set guioptions-=m
     set guitablabel=%M\ %t
     set showtabline=1
     set linespace=2
@@ -751,7 +770,7 @@ endif
     " <C-K>: up
     let g:ctrlp_map = '<leader>jj'
     let g:ctrlp_cmd = 'CtrlP'
-    nnoremap <leader>kk :CtrlPMRU<CR>
+    nnoremap <leader>rr :CtrlPMRU<CR>
     let g:ctrlp_custom_ignore = {
         \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
         \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz|pyc)$',
@@ -800,7 +819,7 @@ endif
 
 
     " nerdtreetabs
-    map <Leader>ee <plug>NERDTreeTabsToggle<CR>
+    map <Leader>ll <plug>NERDTreeTabsToggle<CR>
     " 关闭同步
     let g:nerdtree_tabs_synchronize_view=0
     let g:nerdtree_tabs_synchronize_focus=0
@@ -811,14 +830,16 @@ endif
 " }}}
 
 " 标签导航
+if 0
 " taglist {{{
-    nnoremap <leader>rr :TlistToggle<CR>
+    nnoremap <leader>tt :TlistToggle<CR>
     " let Tlist_Ctags_Cmd = '/usr/local/bin/ctags'
 	let Tlist_GainFocus_On_ToggleOpen = 1
     let Tlist_Show_One_File = 1 "不同时显示多个文件的tag，只显示当前文件的
     " let Tlist_File_Fold_Auto_Close = 1
     let Tlist_Exit_OnlyWindow = 1 "如果taglist窗口是最后一个窗口，则退出vim
 " }}}
+endif
 
 " tagbar {{{
     nnoremap <leader>ff :TagbarToggle<CR>
@@ -1081,6 +1102,7 @@ endif
 " }}}
 
 if g:islinux
+if 0
 " Snippets {
         " Use honza's snippets.
         let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
@@ -1187,6 +1209,7 @@ if g:islinux
     let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
     let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
 " }}}
+endif
 
 " SuperTab {{{
 " let g:SuperTabDefultCompletionType='context'
