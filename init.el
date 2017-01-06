@@ -1,5 +1,12 @@
 ;; -*- coding: utf-8 -*-
-;(defvar best-gc-cons-threshold gc-cons-threshold "Best default gc threshold value. Should't be too big.")
+;;(defvar best-gc-cons-threshold gc-cons-threshold "Best default gc threshold value. Should't be too big.")
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
 (defvar best-gc-cons-threshold 4000000 "Best default gc threshold value. Should't be too big.")
 ;; don't GC during startup to save time
 (setq gc-cons-threshold most-positive-fixnum)
@@ -22,20 +29,76 @@
                    (*linux* nil)
                    (t nil)))
 
+(setq *emacs24old*  (or (and (= emacs-major-version 24) (= emacs-minor-version 3))
+                        (not *emacs24*)))
+
 ;; *Message* buffer should be writable in 24.4+
 (defadvice switch-to-buffer (after switch-to-buffer-after-hack activate)
   (if (string= "*Messages*" (buffer-name))
       (read-only-mode -1)))
 
-;; custom
+;; start custom
+(menu-bar-mode -1)
 (blink-cursor-mode -1)
 (setq gnus-inhibit-startup-message t)
 ;;不要临时文件
 (setq make-backup-files nil)
 (setq auto-save-default nil)
-(setq backup-inhibited t);;不产生备份
-;; "jj" 'delete-trailing-whitespace
-;; "dd" 'ggtags-grep
+;;不产生备份
+(setq backup-inhibited t)
+(setq idle-require-message-verbose nil)
+
+(setq user-full-name "nson7")
+(setq user-mail-address "nson7@sina.com")
+
+;;tab键为8个字符宽度
+(setq default-tab-width 8)
+(setq-default indent-tabs-mode nil)
+(setq tab-stop-list ())
+(setq c-default-style "Linux")
+(setq c-basic-offset 4)
+
+;;打开括号匹配显示模式
+;; (show-paren-mode t)
+;;括号匹配时可以高亮显示另外一边的括号，但光标不会烦人的跳到另一个括号处。
+;; (setq show-paren-style 'parenthesis)
+
+;; (set-default-font "Courier New-14")
+
+;; (add-to-list 'load-path "~/.emacs.d/solarized")
+;; (require 'color-theme-solarized)
+;; (color-theme-solarized)
+
+;; (add-to-list 'load-path "~/.emacs.d/molokai")
+;; (require 'color-theme-molokai)
+;; (color-theme-molokai)
+
+;;设置打开文件的缺省路径
+;; (setq default-directory "~/.emacs.d")
+
+;;关闭emacs启动时的画面
+;; (setq inhibit-startup-message t)
+
+;; (fset 'yes-or-no-p 'y-or-n-p)
+;; 改变 Emacs 固执的要你回答 yes 的行为。按 y 或空格键表示 yes，n 表示 no。
+
+;;显示行列号
+;; (global-linum-mode t)
+;; (setq column-number-mode t)
+;; (setq line-number-mode t)
+
+;; (setq auto-image-file-mode t)
+;;让 Emacs 可以直接打开和显示图片。
+
+;(auto-compression-mode 1)
+;打开压缩文件时自动解压缩。
+
+;;[ 高亮当前行 ]
+;;----------------------------------------------------------------------------
+;; (require 'hl-line)
+;; (global-hl-line-mode t)
+
+;; end custom
 
 ;; @see https://www.reddit.com/r/emacs/comments/3kqt6e/2_easy_little_known_steps_to_speed_up_emacs_start/
 ;; Normally file-name-handler-alist is set to
@@ -44,6 +107,7 @@
 ;; ("\\`/:" . file-name-non-special))
 ;; Which means on every .el and .elc file loaded during start up, it has to runs those regexps against the filename.
 (let ((file-name-handler-alist nil))
+  (require 'init-autoload)
   (require 'init-modeline)
   (require 'cl-lib)
   (require 'init-compat)
@@ -66,18 +130,14 @@
   (require 'idle-require)
   (require 'init-elpa)
   (require 'init-exec-path) ;; Set up $PATH
-  (require 'init-frame-hooks)
   ;; any file use flyspell should be initialized after init-spelling.el
   ;; actually, I don't know which major-mode use flyspell.
   (require 'init-spelling)
-  (require 'init-xterm)
   (require 'init-gui-frames)
   (require 'init-ido)
   (require 'init-dired)
   (require 'init-uniquify)
   (require 'init-ibuffer)
-  (require 'init-flymake)
-  (require 'init-smex)
   (require 'init-ivy)
   (require 'init-hippie-expand)
   (require 'init-windows)
@@ -88,7 +148,6 @@
   (require 'init-erlang)
   (require 'init-javascript)
   (require 'init-org)
-  (require 'init-org-mime)
   (require 'init-css)
   (require 'init-python-mode)
   (require 'init-haskell)
@@ -97,15 +156,17 @@
   (require 'init-elisp)
   (require 'init-yasnippet)
   ;; Use bookmark instead
-  (require 'init-zencoding-mode)
   (require 'init-cc-mode)
   (require 'init-gud)
   (require 'init-linum-mode)
   ;; (require 'init-gist)
   (require 'init-moz)
   (require 'init-gtags)
+  ;; init-evil dependent on init-clipboard
+  (require 'init-clipboard)
   ;; use evil mode (vi key binding)
   (require 'init-evil)
+  (require 'init-multiple-cursors)
   (require 'init-sh)
   (require 'init-ctags)
   (require 'init-bbdb)
@@ -115,7 +176,6 @@
   (require 'init-term-mode)
   (require 'init-web-mode)
   (require 'init-slime)
-  (require 'init-clipboard)
   (require 'init-company)
   (require 'init-chinese-pyim) ;; cannot be idle-required
   ;; need statistics of keyfreq asap
@@ -134,15 +194,12 @@
   (require 'init-hydra)
 
   ;; {{ idle require other stuff
-  (setq idle-require-idle-delay 3)
+  (setq idle-require-idle-delay 2)
   (setq idle-require-symbols '(init-misc-lazy
                                init-which-func
                                init-fonts
                                init-hs-minor-mode
-                               init-textile
-                               init-csv
                                init-writting
-                               init-doxygen
                                init-pomodoro
                                init-emacspeak
                                init-artbollocks-mode
@@ -154,31 +211,70 @@
     (message "Emacs startup time: %d seconds."
              (time-to-seconds (time-since emacs-load-start-time))))
 
-  ;;----------------------------------------------------------------------------
-  ;; Locales (setting them earlier in this file doesn't work in X)
-  ;;----------------------------------------------------------------------------
-  (require 'init-locales)
-  (require 'init-unicad)
-
   ;; my personal setup, other major-mode specific setup need it.
   ;; It's dependent on init-site-lisp.el
-  (if (file-exists-p "~/.custom.el") (load-file "~/.custom.el"))
-  )
+  (if (file-exists-p "~/.custom.el") (load-file "~/.custom.el")))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(git-gutter:handled-backends (quote (svn hg git)))
- '(safe-local-variable-values (quote ((lentic-init . lentic-orgel-org-init))))
- '(session-use-package t nil (session)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(window-numbering-face ((t (:foreground "DeepPink" :underline "DeepPink" :weight bold))) t))
+;; start custom
+(add-to-list 'load-path "~/.emacs.d/site-lisp/find-and-ctags")
+(require 'find-and-ctags)
+
+(defun my-setup-develop-environment ()
+  (interactive)
+  (let (proj-dir
+        find-opts
+        ctags-opts)
+
+    ;; for COOL MYPROJ
+    ;; you can use find-and-ctags-current-full-filename-match-pattern-p instead
+    (when (find-and-ctags-current-path-match-pattern-p "/root")
+      (setq proj-dir (if find-and-ctags-windows-p "c:/project/app"
+                       "~/"))
+      ;; ignore file bigger than 64K, ignore files in "dist/"
+      (setq find-opts "-not -size +64k -not -iwholename '*/dist/*'")
+      (setq ctags-opts "--exclude='*.min.js' --exclude='*.git*'")
+      ;; you can use setq-local instead
+      (setq tags-table-list
+            (list (find-and-ctags-run-ctags-if-needed proj-dir '((find-opts ctags-opts)
+                                                                 ("dist/test.js" "-a"))))))
+    ;; for other projects
+    ;; insert more `when' statements here
+    ))
+
+;; OPTIONAL
+(add-hook 'after-save-hook 'find-and-ctags-auto-update-tags)
+(add-hook 'prog-mode-hook 'my-setup-develop-environment)
+(add-hook 'org-mode-hook 'my-setup-develop-environment)
+
+;; In above setup, TAGS will be updated *automatically* every 5 minutes.
+;; But you can manually update TAGS by `M-x find-and-ctags-update-all-tags-force'.
+;; If you want to manually update the TAGS, `M-x find-and-ctags-update-all-tags-force'.
+;;
+;; After `'tags-table-list' is set, You can `M-x find-tag' to start code navigation
+;;
+;; You can use `(find-and-ctags-get-hostname)' for per computer setup.
+;; For example, if my home PC hostname is like `AU0247589',
+;; Here is sample code how I specify my C++ setup for home ONLY:
+;;
+;;   (if (string-match "^AU.*" (find-and-ctags-get-hostname))
+;;      (setq my-default-ctags-options "--I IMPLEMENT_ABSTRACT_CLASS"))
+;;
+;; See https://github.com/redguardtoo/find-and-ctags/ for more tips
+
+;;; Code:
+
+(autoload 'find-file-in-project "find-file-in-project" nil t)
+(autoload 'find-file-in-project-by-selected "find-file-in-project" nil t)
+(autoload 'find-directory-in-project-by-selected "find-file-in-project" nil t)
+(autoload 'ffip-show-diff "find-file-in-project" nil t)
+(autoload 'ffip-save-ivy-last "find-file-in-project" nil t)
+(autoload 'ffip-ivy-resume "find-file-in-project" nil t)
+
+;; end custom
+
+;; @see https://www.reddit.com/r/emacs/comments/4q4ixw/how_to_forbid_emacs_to_touch_configuration_files/
+(setq custom-file (concat user-emacs-directory "custom-set-variables.el"))
+(load custom-file 'noerror)
 
 (setq gc-cons-threshold best-gc-cons-threshold)
 ;;; Local Variables:
