@@ -221,7 +221,7 @@ function! s:ZoomToggle() abort
     endif
 endfunction
 command! ZoomToggle call s:ZoomToggle()
-nnoremap <silent> <Leader>zz :ZoomToggle<CR>
+nnoremap <silent> <Leader>ff :ZoomToggle<CR>
 
 " 缩进配置
 " Smart indent
@@ -347,6 +347,8 @@ nnoremap <C-o> <C-W>o "全屏
 " 命令行模式增强，ctrl - a到行首， -e 到行尾
 cnoremap <C-j> <t_kd>
 cnoremap <C-k> <t_ku>
+cnoremap <C-f> <t_kr>
+cnoremap <c-b> <t_kl>
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 
@@ -779,7 +781,7 @@ endif
     "move
     " <C-j>: down
     " <C-K>: up
-    let g:ctrlp_map = '<leader>jj'
+    let g:ctrlp_map = '<leader>kk'
     let g:ctrlp_cmd = 'CtrlP'
     nnoremap <leader>rr :CtrlPMRU<CR>
     let g:ctrlp_custom_ignore = {
@@ -853,7 +855,7 @@ if 0
 endif
 
 " tagbar {{{
-    nnoremap <leader>ff :TagbarToggle<CR>
+    nnoremap <leader>dd :TagbarToggle<CR>
     let g:tagbar_left = 1
     let g:tagbar_autofocus = 1
     " let g:tagbar_autoshowtag = 1
@@ -1086,7 +1088,8 @@ endif
     " map + <Plug>(expand_region_expand)
     " map _ <Plug>(expand_region_shrink)
     vmap v <Plug>(expand_region_expand)
-    vmap V <Plug>(expand_region_shrink)
+    vmap <leader>xx <Plug>(expand_region_expand)
+    vmap z <Plug>(expand_region_shrink)
 " }}}
 
 " ################### 快速移动 ###################
