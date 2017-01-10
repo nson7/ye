@@ -43,6 +43,7 @@ filetype plugin indent on
 " history存储容量
 set history=70
 set gcr=a:blinkon0
+" set makeprg=gcc\ %
 
 " 检测文件类型
 filetype on
@@ -344,6 +345,13 @@ nnoremap <C-l> <C-W>l
 nnoremap <C-r> <C-W>r " 分屏窗口交换
 nnoremap <C-o> <C-W>o "全屏
 
+vnoremap <C-j> <C-W>j
+vnoremap <C-k> <C-W>k
+vnoremap <C-h> <C-W>h
+vnoremap <C-l> <C-W>l
+vnoremap <C-r> <C-W>r " 分屏窗口交换
+vnoremap <C-o> <C-W>o "全屏
+
 " 命令行模式增强，ctrl - a到行首， -e 到行尾
 cnoremap <C-j> <t_kd>
 cnoremap <C-k> <t_ku>
@@ -358,6 +366,9 @@ nnoremap Y y$
 " 复制选中区到系统剪切板中
 vnoremap <leader>y "+y
 noremap <leader>p "+p
+
+vnoremap <leader>aa "+y
+noremap <leader>zz "+p
 
 " select all
 " map <C-a> ggVG
@@ -399,9 +410,9 @@ nnoremap <leader>9 9gt
 map <C-u> :tabonly<cr>
 
 " emacs HotKey
-nnoremap <leader>mm :!python %<cr>
-nnoremap <leader>cc :!gcc %<cr>
-nnoremap <leader>ee :!a.out<cr>
+" nnoremap <leader>ee :!python %<cr>
+" nnoremap <leader>oo :!gcc %<cr>
+" nnoremap <leader>ee :!a.out<cr>
 
 nnoremap <M-x> :
 nnoremap <C-x>0 :wq<cr>
@@ -782,6 +793,7 @@ endif
     " <C-j>: down
     " <C-K>: up
     let g:ctrlp_map = '<leader>kk'
+    let g:ctrlp_map = '<leader>ip'
     let g:ctrlp_cmd = 'CtrlP'
     nnoremap <leader>rr :CtrlPMRU<CR>
     let g:ctrlp_custom_ignore = {
@@ -814,7 +826,9 @@ endif
 
 " Ack{{{
     if g:islinux
-        nnoremap <Leader>aa :Ack! <C-R>=expand("<cword>")<CR><CR>
+        nnoremap <Leader>jj :Ack! <C-R>=expand("<cword>")<CR><CR>
+        " nnoremap <Leader>aa :Ack <C-R>=expand("<cword>")<CR><CR>
+        " nnoremap <Leader>ee :Ack!  %<Left><Left>
     endif
 " }}}
 
@@ -856,6 +870,7 @@ endif
 
 " tagbar {{{
     nnoremap <leader>dd :TagbarToggle<CR>
+    nnoremap <leader>ov :TagbarToggle<CR>
     let g:tagbar_left = 1
     let g:tagbar_autofocus = 1
     " let g:tagbar_autoshowtag = 1
